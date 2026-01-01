@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.acgr.sofka.pt.kardif.domain.model.TransactionRecord;
 import com.acgr.sofka.pt.kardif.domain.repository.TransactionRepository;
+import com.acgr.sofka.pt.kardif.service.dto.TransactionResponse;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -24,14 +26,36 @@ public class TransactionService {
         this.repository = repository;
     }
 
-    public Mono<TransactionRecord> registerTransaction(BigDecimal amount) {
-        BigDecimal commission = calculateCommission(amount);
+    public Mono<TransactionResponse> registerTransaction(BigDecimal amount) {
+        BigDecimal commissionRate = determineRate(amount);
+        BigDecimal commission = calculateCommission(amount, commissionRate);
+        String reason = describeReason(amount, commissionRate);
         TransactionRecord record = new TransactionRecord(null, amount, commission, LocalDateTime.now());
-        return repository.save(record);
+        return repository.save(record)
+                .map(saved -> TransactionResponse.from(saved, commissionRate, reason));
     }
 
-    private BigDecimal calculateCommission(BigDecimal amount) {
-        BigDecimal rate = amount.compareTo(THRESHOLD) > 0 ? HIGH_RATE : LOW_RATE;
+    public Flux<TransactionResponse> getAllTransactions() {
+        return repository.findAll()
+                .map(record -> {
+                    BigDecimal rate = determineRate(record.getAmount());
+                    String reason = describeReason(record.getAmount(), rate);
+                    return TransactionResponse.from(record, rate, reason);
+                });
+    }
+
+    private BigDecimal calculateCommission(BigDecimal amount, BigDecimal rate) {
         return amount.multiply(rate).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal determineRate(BigDecimal amount) {
+        return amount.compareTo(THRESHOLD) > 0 ? HIGH_RATE : LOW_RATE;
+    }
+
+    private String describeReason(BigDecimal amount, BigDecimal rate) {
+        if (rate.compareTo(HIGH_RATE) == 0) {
+            return "El monto de " + amount + " supera el umbral de " + THRESHOLD + ", por eso se aplica la tasa alta del 5%";
+        }
+        return "El monto de " + amount + " no supera el umbral de " + THRESHOLD + ", por eso se aplica la tasa baja del 2%";
     }
 }
