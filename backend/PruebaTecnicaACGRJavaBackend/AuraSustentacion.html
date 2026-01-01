@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Guia de sustentacion backend para Aura</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f5f6; margin: 0; padding: 1rem 0; color: #111; }
+    main { max-width: 960px; margin: 0 auto; padding: 0 1rem; }
+    header, section { background: #fff; border-radius: 6px; padding: 1rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    header h1 { margin-top: 0; }
+    section h2 { margin-top: 0.2rem; }
+    ul, ol { padding-left: 1.25rem; }
+    pre { background: #0f172a; color: #f8fafc; padding: 0.75rem; border-radius: 4px; overflow-x: auto; font-size: 0.9rem; }
+    code { font-size: 0.95rem; background: #e2e8f0; padding: 0.1rem 0.3rem; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Guia de sustentacion backend para Aura</h1>
+      <p>Este documento describe como se construyo PruebaTecnicaACGRJavaBackend, que principios SOLID y clean code lo sostienen, y que mensajes claves debe Aura dominar en la validacion tecnica.</p>
+    </header>
+
+    <section>
+      <h2>Panorama general</h2>
+      <p>La aplicacion es una API reactiva que usa Spring Boot WebFlux, respaldada por R2DBC + H2 en memoria y expuesta con Swagger (Springdoc). El foco esta en mantener un flujo no bloqueante para registrar transacciones y calcular comisiones en forma no bloqueante.</p>
+      <ul>
+        <li>Mono y Flux en el controlador, el servicio y el repositorio para mantener IO reactivo.</li>
+        <li>Capas separadas: HTTP, dominio, reglas de negocio y configuracion.</li>
+        <li>Documentacion Swagger y configuracion declarativa desde application.properties.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Principios SOLID y clean code</h2>
+      <ul>
+        <li><strong>SRP:</strong> <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java" target="_blank" rel="noopener noreferrer">TransactionController &#8599;</a></code> solo adapta HTTP, <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java" target="_blank" rel="noopener noreferrer">TransactionService &#8599;</a></code> orquesta reglas y persistencia, y <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java" target="_blank" rel="noopener noreferrer">ThresholdCommissionRule &#8599;</a></code> encierra la logica de comision.</li>
+        <li><strong>Open/Closed:</strong> agregar reglas requiere solo nuevas implementaciones de <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java" target="_blank" rel="noopener noreferrer">CommissionRule &#8599;</a></code> y actualizacion en configuracion.</li>
+        <li><strong>Dependency Inversion:</strong> el servicio depende de <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/repository/TransactionRepository.java" target="_blank" rel="noopener noreferrer">TransactionRepository &#8599;</a></code> y <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java" target="_blank" rel="noopener noreferrer">CommissionRule &#8599;</a></code> y es facil de mockear.</li>
+        <li><strong>Interface Segregation:</strong> cada regla solo expone matches/apply (<code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java" target="_blank" rel="noopener noreferrer">CommissionRule &#8599;</a></code>).</li>
+        <li>Clean code: nombres claros, atributos en properties y comentarios que explican decisiones de diseno.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Arquitectura y componentes clave</h2>
+      <ul>
+        <li><strong>Controlador:</strong> <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java" target="_blank" rel="noopener noreferrer">TransactionController &#8599;</a></code> valida entradas y responde con <code>Mono</code> y <code>Flux</code>.</li>
+        <li><strong>Servicio:</strong> <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java" target="_blank" rel="noopener noreferrer">TransactionService &#8599;</a></code> aplica la regla adecuada, crea <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java" target="_blank" rel="noopener noreferrer">TransactionRecord &#8599;</a></code> y retorna <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java" target="_blank" rel="noopener noreferrer">TransactionResponse &#8599;</a></code>.</li>
+        <li><strong>DTOs:</strong> <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionRequest.java" target="_blank" rel="noopener noreferrer">TransactionRequest &#8599;</a></code> requiere un monto positivo; <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java" target="_blank" rel="noopener noreferrer">TransactionResponse &#8599;</a></code> incluye la comision calculada y la marca temporal.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Flujo de una transaccion</h2>
+      <ol>
+        <li>POST /api/transactions con JSON <code>{"amount": 1500.50}</code> y validacion activa.</li>
+        <li><code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java" target="_blank" rel="noopener noreferrer">TransactionController &#8599;</a></code> delega en <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java" target="_blank" rel="noopener noreferrer">TransactionService &#8599;</a></code>.</li>
+        <li>El servicio revisa las reglas configuradas y aplica la primera coincidencia.</li>
+        <li><code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java" target="_blank" rel="noopener noreferrer">ThresholdCommissionRule &#8599;</a></code> construye el resultado y <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java" target="_blank" rel="noopener noreferrer">TransactionService &#8599;</a></code> lo guarda via <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/repository/TransactionRepository.java" target="_blank" rel="noopener noreferrer">TransactionRepository &#8599;</a></code>.</li>
+        <li>Tanto el guardado como la respuesta se muestran en <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java" target="_blank" rel="noopener noreferrer">TransactionResponse &#8599;</a></code>.</li>
+        <li>GET /api/transactions recorre el repo y recalcula la comision para cada registro.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Configuracion de reglas</h2>
+      <p><code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionRulesProperties.java" target="_blank" rel="noopener noreferrer">TransactionRulesProperties &#8599;</a></code> lee <code>transaction.rules</code> y <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/TransactionRulesConfiguration.java" target="_blank" rel="noopener noreferrer">TransactionRulesConfiguration &#8599;</a></code> arma reglas por defecto si no hay propiedades.</p>
+      <pre>{
+transaction.rules[0].max-amount=10000
+transaction.rules[0].rate=0.02
+transaction.rules[1].min-amount=10000
+transaction.rules[1].rate=0.05
+}</pre>
+      <p>Modificar esta lista permite cambiar tasas y mensajes sin tocar logica.</p>
+    </section>
+
+    <section>
+      <h2>Persistencia</h2>
+      <p>Se usa H2 en memoria con <code>r2dbc:h2:mem:///commissiondb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</code> y <code>schema.sql</code> crea la tabla transactions con columnas id, amount, commission y executed_at.</p>
+    </section>
+
+    <section>
+      <h2>Referencias de API</h2>
+      <h3>POST /api/transactions</h3>
+      <p>Crea la transaccion y devuelve el registro persistido.</p>
+      <pre>{
+  "amount": 12345.00
+}</pre>
+      <h3>GET /api/transactions</h3>
+      <p>Liste todas las transacciones con la comision recien calculada.</p>
+    </section>
+
+    <section>
+      <h2>Infraestructura y calidad</h2>
+      <ul>
+        <li><code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/JacksonConfig.java" target="_blank" rel="noopener noreferrer">JacksonConfig &#8599;</a></code> formatea fechas en ISO.</li>
+        <li><code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/WebCorsConfiguration.java" target="_blank" rel="noopener noreferrer">WebCorsConfiguration &#8599;</a></code> habilita http://localhost:4200 y genera un CorsWebFilter reutilizable.</li>
+        <li><code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/SwaggerUiPatchConfiguration.java" target="_blank" rel="noopener noreferrer">SwaggerUiPatchConfiguration &#8599;</a></code> corrige Swagger para Spring 7 y <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/SwaggerUrlLogger.java" target="_blank" rel="noopener noreferrer">SwaggerUrlLogger &#8599;</a></code> imprime la url de Swagger.</li>
+        <li><code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/GlobalErrorHandler.java" target="_blank" rel="noopener noreferrer">GlobalErrorHandler &#8599;</a></code> responde con <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/ErrorResponse.java" target="_blank" rel="noopener noreferrer">ErrorResponse &#8599;</a></code> uniforme para validaciones y errores inesperados.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Ejecucion y verificacion</h2>
+      <p>Usar el wrapper:</p>
+      <pre>./gradlew clean build
+./gradlew test
+./gradlew bootRun</pre>
+      <p>Verificar Swagger en http://localhost:8080/swagger-ui/index.html y /api-docs y probar con curl o Postman.</p>
+    </section>
+
+    <section>
+      <h2>Estado de pruebas</h2>
+      <p>Solo existe el contextLoads; <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/test/java/com/acgr/sofka/pt/kardif/service/TransactionServiceTest.java" target="_blank" rel="noopener noreferrer">TransactionServiceTest &#8599;</a></code> esta vacio. Recomendaciones:</p>
+      <ul>
+        <li>Mockear <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/repository/TransactionRepository.java" target="_blank" rel="noopener noreferrer">TransactionRepository &#8599;</a></code> y verificar que se use la regla correcta.</li>
+        <li>Agregar pruebas para <code><a href="https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java" target="_blank" rel="noopener noreferrer">ThresholdCommissionRule &#8599;</a></code> en distintos rangos.</li>
+        <li>Crear un test WebFlux con WebTestClient para los endpoints.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Puntos clave para la sustentacion</h2>
+      <ul>
+        <li>Explicar los principios SOLID y como cada capa cumple una responsabilidad unica.</li>
+        <li>Resaltar la stack reactiva y el uso de Mono/Flux + R2DBC.</li>
+        <li>Mostrar la flexibilidad de reglas configuradas mediante properties.</li>
+        <li>Recordar la experiencia de desarrollador con Swagger, CORS, Jackson y errores uniformes.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
