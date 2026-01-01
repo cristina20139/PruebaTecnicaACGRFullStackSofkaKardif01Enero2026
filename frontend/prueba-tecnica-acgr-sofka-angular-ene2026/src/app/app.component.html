@@ -1,0 +1,94 @@
+<div class="page">
+  <header class="hero">
+    <p class="eyebrow">Sofka Fintech - BNP-FS01</p>
+    <h1>Liquidacion de comisiones en tiempo real</h1>
+    <p>
+      Controla el registro y la trazabilidad de las comisiones generadas por cada
+      transaccion financiera sin salir del mismo tablero.
+    </p>
+    <div class="hero-meta">
+      <div>
+        <span>Ultima actualizacion</span>
+        <strong
+          >{{ lastUpdated ? (lastUpdated | date: 'short') : 'Obteniendo datos...' }}</strong
+        >
+      </div>
+      <button type="button" class="ghost" (click)="refreshNow()">Actualizar ahora</button>
+    </div>
+  </header>
+
+  <section class="grid">
+    <article class="panel form-panel">
+      <div class="panel-heading">
+        <h2>Registrar nueva transaccion</h2>
+        <p>Las comisiones se calculan dinamicamente de acuerdo al monto.</p>
+      </div>
+
+      <form [formGroup]="transactionForm" (ngSubmit)="submitTransaction()" novalidate class="transaction-form">
+        <label class="field">
+          <span>Monto (COP)</span>
+          <input
+            formControlName="amount"
+            type="number"
+            placeholder="Ej: 50000"
+            min="1"
+            step="0.01"
+            inputmode="decimal"
+          />
+        </label>
+
+        <div class="field-hint" *ngIf="transactionForm.controls.amount.touched">
+          <small *ngIf="transactionForm.controls.amount.hasError('required')">El monto es obligatorio.</small>
+          <small *ngIf="transactionForm.controls.amount.hasError('min')">Debe ser mayor a 0.</small>
+        </div>
+
+        <button type="submit" [disabled]="transactionForm.invalid || creationPending">
+          {{ creationPending ? 'Registrando...' : 'Enviar transaccion' }}
+        </button>
+
+        <p class="feedback success" *ngIf="creationMessage">{{ creationMessage }}</p>
+        <p class="feedback error" *ngIf="creationError">{{ creationError }}</p>
+      </form>
+    </article>
+
+    <article class="panel list-panel">
+      <div class="panel-heading space-between">
+        <div>
+          <h2>Transacciones recientes</h2>
+          <p>Se sincroniza automaticamente cada 5 segundos.</p>
+        </div>
+        <span class="loader" *ngIf="listLoading">Sincronizando...</span>
+      </div>
+
+      <div class="alert" *ngIf="listError">{{ listError }}</div>
+
+      <div *ngIf="(transactions$ | async) as transactions; else emptyTransactionList">
+        <table class="transactions-table" aria-live="polite">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Monto</th>
+              <th>Comision</th>
+              <th>Fecha ejecucion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of transactions">
+              <td>#{{ transaction.id }}</td>
+              <td>{{ transaction.amount | currency: 'COP': 'symbol': '1.0-0' }}</td>
+              <td>{{ transaction.commission | currency: 'COP': 'symbol': '1.0-0' }}</td>
+              <td>{{ transaction.executedAt | date: 'medium' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #emptyTransactionList>
+        <div class="empty-state">
+          <p>No se han registrado transacciones.</p>
+          <button type="button" class="ghost" (click)="refreshNow()">Reintentar</button>
+        </div>
+      </ng-template>
+    </article>
+  </section>
+</div>
