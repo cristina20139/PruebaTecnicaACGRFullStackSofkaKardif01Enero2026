@@ -1,91 +1,298 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang='es'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prueba técnica FullStack · BNP-FS01</title>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>🧪 Prueba técnica FullStack – BNP-FS01</title>
   <style>
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #fafbfc; color: #23272f; margin: 0; padding: 0; }
-  .container { max-width: 950px; margin: 40px auto; background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-radius: 10px; padding: 32px 40px; }
-  h1 { color: #1565c0; margin-bottom: 0.1rem; }
-  h2 { color: #2e7d32; margin-top: 32px; }
-  h3 { color: #7b1fa2; margin-top: 24px; }
-  p { margin: 0.35rem 0; line-height: 1.5; }
-  .note { background: #e3f2fd; border-left: 4px solid #1976d2; padding: 16px 20px; margin: 18px 0; border-radius: 7px; }
-  .note ul { list-style: disc inside; margin: 0; padding-left: 1.2em; }
-  .note li { margin-bottom: 3px; line-height: 1.35; }
-  .note p { margin: 0 0 6px 0; line-height: 1.5; }
-  .footer { text-align: right; color: #888; font-size: 1em; margin-top: 40px; }
-  .tag { display: inline-block; background: #e3f2fd; color: #1565c0; border-radius: 4px; padding: 3px 8px; margin-bottom: 6px; font-size: 0.95em; }
-  .document { white-space: pre-wrap; }
-  .params table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-  .params th, .params td { border: 1px solid #ccc; padding: 6px; }
-  .important { background: #fffde7; border-left: 4px solid #fbc02d; padding: 12px 18px; margin: 18px 0; border-radius: 5px; }
-  .pages { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.95rem; margin-top: 16px; }
-  .page { background: #f1f5f9; border-radius: 4px; padding: 8px 12px; border: 1px solid #e2e8f0; }
-  @media (max-width: 600px) { .container { padding: 16px 8px; } }
-  .row { display:flex; gap:20px; flex-wrap:wrap; }
-  .col { flex:1 1 420px; }
-  .row + .row { margin-top: 20px; }
-  .endpoint { border: 1px solid #e0e0e0; padding: 12px 14px; border-radius: 8px; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.04); }
-  .json { white-space: pre; font-family: Consolas, 'Courier New', monospace; font-size: 0.95em; }
-  .success { color: #2e7d32; font-weight: 600; }
-  .error { color: #c62828; font-weight: 600; }
+  :root {
+    color-scheme: light;
+    --primary: #1565c0;
+    --accent: #2e7d32;
+    --muted: #6b7280;
+    --surface: #ffffff;
+    --card: #f8fafc;
+    --shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top, #e0f2fe, #0b1120 60%);
+    color: #0f172a;
+  }
+  .backdrop {
+    min-height: 100vh;
+    padding: 48px 16px 72px;
+    display: flex;
+    justify-content: center;
+  }
+  .container {
+    width: min(1120px, 100%);
+    background: var(--surface);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    padding: clamp(24px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .tag {
+    align-self: flex-start;
+    background: #e3f2fd;
+    color: var(--primary);
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .title-block h1 {
+    margin: 0;
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    color: var(--primary);
+  }
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+  }
+  .meta-chip {
+    background: #eef2ff;
+    color: #312e81;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+  .document-id {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  .document-id div {
+    background: var(--card);
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  .label {
+    margin: 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .value {
+    margin: 4px 0 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+  }
+  .section-card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: clamp(20px, 2.5vw, 28px);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .section-card h2 {
+    margin: 0;
+    color: var(--accent);
+    font-size: 1.4rem;
+  }
+  .section-card p {
+    margin: 0;
+    color: #1f2937;
+    line-height: 1.6;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .grid-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .grid-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #111827;
+  }
+  .grid-card .icon {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+  }
+  .note {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 16px 18px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #92400e;
+  }
+  .criteria {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .criteria li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #0f172a;
+    font-weight: 600;
+  }
+  .criteria li .dot {
+    width: 12px;
+    height: 12px;
+    background: #2e7d32;
+    border-radius: 50%;
+  }
+  .pages {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .page {
+    background: #e0f2fe;
+    color: #0f172a;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .confidential {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 18px;
+    padding: 20px 22px;
+    border: 1px solid rgba(226, 232, 240, 0.4);
+    line-height: 1.6;
+  }
+  .confidential p {
+    margin: 8px 0;
+  }
+  .footer {
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
   </style>
 </head>
 <body>
-  <div class="container">
-    <span class="tag">🛡 USO EXCLUSIVO SOFKA</span>
-    <header>
-      <h1>BNP-FS01 - Prueba técnica Full Stack ⚙️</h1>
-      <p>Versión 1 · 30/12/2025</p>
-    </header>
-    <section class="document">
-      <p>Prueba técnica FullStack</p>
-      <p>Código: BNP-FS01</p>
-      <p>Versión: 1</p>
-      <p>Fecha: 30/12/2024</p>
-      <p>Acceso: Externo ? USO EXCLUSIVO SOFKA</p>
-      <p>Sistema de Liquidación de Comisiones "Sofka-Fintech"</p>
-      <p>El equipo de banca necesita un módulo que procese transacciones financieras y liquide comisiones basadas en reglas de negocio dinámicas. El candidato debe demostrar su capacidad para manejar flujos asíncronos y persistencia relacional sólida.</p>
-      <h2>Requisitos Funcionales</h2>
-      <div class="row">
-        <div class="col">
-          <h3>Backend (Java/Spring Boot)</h3>
-          <p>Crear un endpoint reactivo (WebFlux) para registrar transacciones.</p>
-          <p>Implementar un servicio que calcule una comisión del 5% para transacciones &gt; 10,000 y 2% para menores.</p>
-          <p>Persistir los datos en Oracle (o H2 para la prueba) usando una estructura que incluya ID, Monto, Comision y Fecha.</p>
+  <div class='backdrop'>
+    <div class='container'>
+      <div class='tag'>🔒 USO EXCLUSIVO SOFKA</div>
+
+      <div class='hero'>
+        <div class='title-block'>
+          <h1>🧪 BNP-FS01 - Prueba técnica Full Stack</h1>
+          <p class='subtitle'>📄 Versión 1 • 📅 30/12/2025 • 🌐 Acceso: Externo • 🔒 USO EXCLUSIVO SOFKA</p>
         </div>
-        <div class="col">
-          <h3>Frontend (Angular)</h3>
-          <p>Crear un Dashboard que consuma el API y liste las transacciones en tiempo real.</p>
-          <p>Implementar un formulario con validaciones reactivas para nuevas transacciones.</p>
+        <div class='hero-meta'>
+          <span class='meta-chip'>💰 Sistema de Liquidación de Comisiones "Sofka-Fintech"</span>
+          <span class='meta-chip'>👩‍💻👨‍💻 Prueba técnica FullStack</span>
         </div>
       </div>
-      <h2>Uso de IA (Opcional)</h2>
-      <p>El candidato puede usar asistentes (Copilot/ChatGPT) para optimizar el código o generar pruebas unitarias. Si lo hace, debe declarar en qué partes la utilizó para la revisión técnica.</p>
-      <h2>Criterios de Aceptación</h2>
-      <div class="note">
-        <ul>
-          <li>Uso de Clean Code y principios SOLID.</li>
-          <li>Pruebas unitarias con JUnit/Mockito.</li>
-          <li>Manejo de errores global en el API.</li>
+
+      <div class='document-id'>
+        <div>
+          <p class='label'>📌 Código</p>
+          <p class='value'>BNP-FS01</p>
+        </div>
+        <div>
+          <p class='label'>🧩 Versión</p>
+          <p class='value'>1</p>
+        </div>
+        <div>
+          <p class='label'>📆 Fecha</p>
+          <p class='value'>30/12/2024</p>
+        </div>
+      </div>
+
+      <div class='section-card'>
+        <h2>📘 Contexto literal</h2>
+        <p>El equipo de banca necesita un módulo que procese transacciones financieras y liquide comisiones basadas en reglas de negocio dinámicas. El candidato debe demostrar su capacidad para manejar flujos asíncronos y persistencia relacional sólida.</p>
+      </div>
+
+      <div class='section-card'>
+        <h2>⚙️ Requisitos Funcionales</h2>
+        <div class='grid'>
+          <article class='grid-card'>
+            <span class='icon'>🧠 Backend</span>
+            <h3>Java • Spring WebFlux</h3>
+            <p>Crear un endpoint reactivo (WebFlux) para registrar transacciones.</p>
+            <p>Implementar un servicio que calcule una comisión del 5% para transacciones &gt; 10,000 y 2% para menores, y persistir ID, Monto, Comisión y Fecha en Oracle (o H2 para la prueba).</p>
+          </article>
+          <article class='grid-card'>
+            <span class='icon'>🎨 Frontend</span>
+            <h3>Angular</h3>
+            <p>Crear un Dashboard que consuma el API y liste las transacciones en tiempo real.</p>
+            <p>Implementar un formulario con validaciones reactivas para nuevas transacciones.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class='section-card'>
+        <h2>🤖 Uso de IA (Opcional)</h2>
+        <p>El candidato puede usar asistentes (Copilot/ChatGPT) para optimizar el código o generar pruebas unitarias. Si lo hace, debe declarar en qué partes la utilizó para la revisión técnica.</p>
+      </div>
+
+      <div class='section-card'>
+        <h2>✅ Criterios de Aceptación</h2>
+        <ul class='criteria'>
+          <li><span class='dot'></span>Uso de Clean Code y principios SOLID.</li>
+          <li><span class='dot'></span>Pruebas unitarias con JUnit/Mockito.</li>
+          <li><span class='dot'></span>Manejo de errores global en el API.</li>
         </ul>
       </div>
-      <p>Nota: Enviar la prueba técnica al equipo de selección con copia a dieber.roa@sofka.com.co. ¡Éxitos!! ✉️</p>
-      <div class="pages">
-        <div class="page">1 ? Prueba técnica FullStack</div>
-        <div class="page">2 ? Prueba técnica FullStack</div>
-        <div class="page">3 ? Prueba técnica FullStack</div>
+
+      <div class='section-card'>
+        <h2>🚀 Acción inmediata</h2>
+        <div class='note'>📤 Nota: Enviar la prueba técnica al equipo de selección con copia a dieber.roa@sofka.com.co. ¡Éxitos! 🍀✨</div>
+        <div class='pages'>
+          <span class='page'>📄 1 • Prueba técnica FullStack</span>
+          <span class='page'>📄 2 • Requisitos</span>
+          <span class='page'>📄 3 • Confidencialidad</span>
+        </div>
       </div>
-      <section class="important">
-        <p>CONFIDENCIALIDAD: La información contenida en este documento es confidencial y de propiedad exclusiva de SOFKA. Se comparte únicamente con el destinatario autorizado y no puede ser divulgada, reproducida ni utilizada para ningún propósito distinto al autorizado sin el consentimiento previo y por escrito de SOFKA. Cualquier acceso, uso, distribución o divulgación no autorizada de este documento podría estar sujeta a acciones legales conforme con las Leyes legales aplicables en la República de Colombia.</p>
-        <p>Si ha recibido este documento por error, le solicitamos que lo notifique de inmediato a SGSI@sofka.com.co y proceda a su eliminación definitiva. 🔒</p>
-      </section>
-      <p>Acceso: Externo</p>
-    </section>
-    <div class="footer">
-      <small>GENERADO PARA SOFKA ? BNP-FS01 ? Versión 1</small>
+
+      <div class='section-card confidential'>
+        <h2 style='color: #bfdbfe;'>🔐 CONFIDENCIALIDAD</h2>
+        <p>La información contenida en este documento es confidencial y de propiedad exclusiva de SOFKA.</p>
+        <p>Se comparte únicamente con el destinatario autorizado y no puede ser divulgada, reproducida ni utilizada para ningún propósito distinto al autorizado sin el consentimiento previo y por escrito de SOFKA.</p>
+        <p>Cualquier acceso, uso, distribución o divulgación no autorizada de este documento podrá estar sujeta a acciones legales conforme con las leyes legales aplicables en la República de Colombia.</p>
+        <p>Si ha recibido este documento por error, le solicitamos que lo notifique de inmediato a SGSI@sofka.com.co y proceda a su eliminación definitiva. ⚠️</p>
+      </div>
+
+      <div class='footer'>
+        <small>©️ GENERADO PARA SOFKA • BNP-FS01 • Versión 1</small>
+      </div>
     </div>
   </div>
 </body>
