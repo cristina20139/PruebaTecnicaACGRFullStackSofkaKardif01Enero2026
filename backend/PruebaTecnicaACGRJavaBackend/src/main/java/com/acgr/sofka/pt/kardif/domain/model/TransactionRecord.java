@@ -12,7 +12,11 @@ public class TransactionRecord {
 
     @Id
     private Long id;
+
+    @Column("amount")
     private BigDecimal amount;
+
+    @Column("commission")
     private BigDecimal commission;
 
     @Column("executed_at")
