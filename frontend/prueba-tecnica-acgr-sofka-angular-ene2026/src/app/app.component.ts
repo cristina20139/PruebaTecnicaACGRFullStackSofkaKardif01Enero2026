@@ -31,6 +31,9 @@ export class AppComponent {
   creationMessage?: string;
   creationError?: string;
 
+  /**
+   * 🤝 D + 🧹 Clean Code: Injects the form builder and transaction service to keep orchestration decoupled from instantiation details.
+   */
   constructor() {
     const polling$ = timer(0, 5000).pipe(mapTo(undefined));
     const manualRefresh$ = this.refresher.pipe(mapTo(undefined));
@@ -41,6 +44,10 @@ export class AppComponent {
     );
   }
 
+  /**
+   * 🧱 SRP + ✨ Clean Code: Validates the form and drives the transaction creation flow while maintaining readable, single-purpose state handling.
+   * @returns {void}
+   */
   submitTransaction(): void {
     if (this.transactionForm.invalid) {
       this.transactionForm.markAllAsTouched();
@@ -71,10 +78,18 @@ export class AppComponent {
       .subscribe();
   }
 
+  /**
+   * 🔄 O + 🧹 Clean Code: Offers a focused refresh trigger so additional refresh strategies can reuse this helper without internal coupling.
+   * @returns {void}
+   */
   refreshNow(): void {
     this.refresher.next();
   }
 
+  /**
+   * 📦 O + 🧩 Clean Code: Loads transactions and keeps loading/error tracking local so the observable pipeline stays predictable for future extensions.
+   * @returns {Observable<Transaction[]>}
+   */
   private loadTransactions(): Observable<Transaction[]> {
     this.listLoading = true;
     this.listError = undefined;
@@ -93,6 +108,11 @@ export class AppComponent {
     );
   }
 
+  /**
+   * 💬 L + 🧹 Clean Code: Normalizes error details to a stable string so callers can substitute different error sources without breaking expectations.
+   * @param {unknown} error
+   * @returns {string}
+   */
   private parseError(error: unknown): string {
     if (error instanceof Error) {
       return error.message;
