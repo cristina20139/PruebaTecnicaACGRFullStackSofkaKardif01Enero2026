@@ -3,6 +3,7 @@ package com.acgr.sofka.pt.kardif.web;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.acgr.sofka.pt.kardif.service.TransactionService;
 import com.acgr.sofka.pt.kardif.service.dto.TransactionRequest;
 import com.acgr.sofka.pt.kardif.service.dto.TransactionResponse;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -25,10 +27,14 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
+    @GetMapping
+    public Flux<TransactionResponse> getAllTransactions() {
+        return transactionService.getAllTransactions();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<TransactionResponse> registerTransaction(@Valid @RequestBody TransactionRequest request) {
-        return transactionService.registerTransaction(request.amount())
-                .map(TransactionResponse::from);
+        return transactionService.registerTransaction(request.amount());
     }
 }
