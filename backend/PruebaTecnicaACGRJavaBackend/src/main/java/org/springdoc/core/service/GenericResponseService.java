@@ -92,9 +92,17 @@ import static org.springdoc.core.utils.SpringDocAnnotationsUtils.getContent;
 import static org.springdoc.core.utils.SpringDocAnnotationsUtils.mergeSchema;
 
 /**
- * The type Generic response builder.
+ * 🧩 Orchestrates Swagger response descriptions so the API metadata stays consistent across exception handlers.
+ * <p>
+ * 🧩 Orquesta las descripciones de respuesta de Swagger para mantener la metadata de la API consistente entre los
+ * manejadores de excepción.
+ * <p>
+ * Applies the Single Responsibility Principle by keeping response metadata logic here, favors the Open/Closed
+ * Principle by letting new sources plug in, and depends on abstractions like {@link OperationService} instead of
+ * concrete controllers (Dependency Inversion).
  *
- * @author bnasslahsen
+ * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+ * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
  */
 public class GenericResponseService {
 
@@ -155,12 +163,17 @@ public class GenericResponseService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericResponseService.class);
 
 	/**
-	 * Instantiates a new Generic response builder.
+	 * 🚀 Wiring constructor that keeps this service open for new parsers while keeping the orchestration logic in one place.
+	 * <p>
+	 * 🚀 Constructor de inyección que mantiene este servicio abierto para nuevos parsers mientras concentra la lógica de
+	 * orquestación en un solo lugar.
 	 *
-	 * @param operationService          the operation builder
-	 * @param returnTypeParsers         the return type parsers
-	 * @param springDocConfigProperties the spring doc config properties
-	 * @param propertyResolverUtils     the property resolver utils
+	 * @param operationService          the operation builder / el constructor de operaciones
+	 * @param returnTypeParsers         the return type parsers / los parsers de tipo de retorno
+	 * @param springDocConfigProperties the spring doc config properties / las propiedades de SpringDoc
+	 * @param propertyResolverUtils     the property resolver utils / las utilidades del resolvedor de propiedades
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public GenericResponseService(OperationService operationService, List<ReturnTypeParser> returnTypeParsers,
 			SpringDocConfigProperties springDocConfigProperties,
@@ -173,9 +186,13 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Sets bean factory.
+	 * 🧰 Injects the bean factory to keep controller advice discovery decoupled from this service.
+	 * <p>
+	 * 🧰 Inyecta la fábrica de beans para mantener el descubrimiento de controller advice desacoplado de este servicio.
 	 *
-	 * @param beanFactory the bean factory
+	 * @param beanFactory the bean factory / la fábrica de beans
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	@Autowired
 	void setBeanFactory(BeanFactory beanFactory) {
@@ -183,13 +200,18 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Build content from doc.
+	 * 📝 Merges annotation-driven content into the API response so documentation stays consistent with the source code.
+	 * <p>
+	 * 📝 Combina el contenido definido por anotaciones en la respuesta de la API para que la documentación coincida
+	 * con el código fuente.
 	 *
-	 * @param components             the components
-	 * @param apiResponsesOp         the api responses op
-	 * @param methodAttributes       the method attributes
-	 * @param apiResponseAnnotations the api response annotations
-	 * @param apiResponse            the api response
+	 * @param components             the components / los componentes
+	 * @param apiResponsesOp         the api responses op / las respuestas API
+	 * @param methodAttributes       the method attributes / los atributos del método
+	 * @param apiResponseAnnotations the api response annotations / las anotaciones de respuesta
+	 * @param apiResponse            the api response / la respuesta API
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public static void buildContentFromDoc(Components components, ApiResponses apiResponsesOp,
 			MethodAttributes methodAttributes,
@@ -224,10 +246,14 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Sets description.
+	 * 🧾 Assigns a description based on the HTTP status so clients always see readable reason phrases.
+	 * <p>
+	 * 🧾 Asigna una descripción basada en el código HTTP para que los clientes vean siempre frases legibles.
 	 *
-	 * @param httpCode    the http code
-	 * @param apiResponse the api response
+	 * @param httpCode    the http code / el código HTTP
+	 * @param apiResponse the api response / la respuesta API
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public static void setDescription(String httpCode, ApiResponse apiResponse) {
 		try {
@@ -240,22 +266,30 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Sets response entity exception handler class.
+	 * 🧱 Captures the ResponseEntityExceptionHandler subclass so reflection-based scanning stays consistent.
+	 * <p>
+	 * 🧱 Captura la subclase de ResponseEntityExceptionHandler para mantener coherente el escaneo mediante reflexión.
 	 *
-	 * @param responseEntityExceptionHandlerClass the response entity exception handler class
+	 * @param responseEntityExceptionHandlerClass the response entity exception handler class / la clase manejadora de ResponseEntityExceptionHandler
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public static void setResponseEntityExceptionHandlerClass(Class<?> responseEntityExceptionHandlerClass) {
 		GenericResponseService.responseEntityExceptionHandlerClass = responseEntityExceptionHandlerClass;
 	}
 
 	/**
-	 * Build api responses.
+	 * 🛠️ Builds responses for a handler method so operation metadata stays accurate and reusable.
+	 * <p>
+	 * 🛠️ Construye respuestas para un método manejador de forma que la metadata de la operación sea precisa y reutilizable.
 	 *
-	 * @param components       the components
-	 * @param handlerMethod    the handler method
-	 * @param operation        the operation
-	 * @param methodAttributes the method attributes
-	 * @return the api responses
+	 * @param components       the components / los componentes
+	 * @param handlerMethod    the handler method / el método manejador
+	 * @param operation        the operation / la operación
+	 * @param methodAttributes the method attributes / los atributos del método
+	 * @return the api responses / las respuestas API
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public ApiResponses build(Components components, HandlerMethod handlerMethod, Operation operation,
 			MethodAttributes methodAttributes) {
@@ -306,11 +340,16 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Build generic response.
+	 * 🧭 Discovers controller advice methods and builds generic API responses so exception handlers stay documented.
+	 * <p>
+	 * 🧭 Descubre métodos de controller advice y construye respuestas genéricas para que los manejadores de excepción
+	 * queden documentados.
 	 *
-	 * @param components           the components
-	 * @param findControllerAdvice the find controller advice
-	 * @param locale               the locale
+	 * @param components           the components / los componentes
+	 * @param findControllerAdvice the find controller advice / los controller advice encontrados
+	 * @param locale               the locale / la localidad
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public void buildGenericResponse(Components components, Map<String, Object> findControllerAdvice, Locale locale) {
 		// ControllerAdvice
@@ -474,10 +513,14 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Gets api responses.
+	 * 🧾 Gathers @ApiResponse annotations from the method and declaring class to aggregate documentation.
+	 * <p>
+	 * 🧾 Recolecta las anotaciones @ApiResponse del método y la clase declarada para agregar la documentación.
 	 *
-	 * @param method the method
-	 * @return the api responses
+	 * @param method the method / el método
+	 * @return the api responses / las respuestas API
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public Set<io.swagger.v3.oas.annotations.responses.ApiResponse> getApiResponses(Method method) {
 		Class<?> declaringClass = method.getDeclaringClass();
@@ -519,14 +562,18 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Build content content.
+	 * 🎨 Builds response content metadata so schemas stay aligned with return types.
+	 * <p>
+	 * 🎨 Genera la metadata de contenido de respuesta para que los esquemas se alineen con los tipos de retorno.
 	 *
-	 * @param components     the components
-	 * @param annotations    the annotations
-	 * @param methodProduces the method produces
-	 * @param jsonView       the json view
-	 * @param returnType     the return type
-	 * @return the content
+	 * @param components     the components / los componentes
+	 * @param annotations    the annotations / las anotaciones
+	 * @param methodProduces the method produces / lo que produce el método
+	 * @param jsonView       the json view / la vista Json
+	 * @param returnType     the return type / el tipo de retorno
+	 * @return the content / el contenido
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public Content buildContent(Components components, Annotation[] annotations, String[] methodProduces, JsonView jsonView, Type returnType) {
 		Content content = new Content();
@@ -653,12 +700,16 @@ public class GenericResponseService {
 	}
 
 	/**
-	 * Evaluate response status string.
+	 * 📊 Evaluates the HTTP status code for a handler, keeping response documentation predictable.
+	 * <p>
+	 * 📊 Evalúa el código de estado HTTP para un manejador, manteniendo la documentación de respuestas predecible.
 	 *
-	 * @param method    the method
-	 * @param beanType  the bean type
-	 * @param isGeneric the is generic
-	 * @return the string
+	 * @param method    the method / el método
+	 * @param beanType  the bean type / el tipo de bean
+	 * @param isGeneric the is generic / si es genérico
+	 * @return the string / la cadena
+	 * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
+	 * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
 	 */
 	public String evaluateResponseStatus(Method method, Class<?> beanType, boolean isGeneric) {
 		String responseStatus = null;
