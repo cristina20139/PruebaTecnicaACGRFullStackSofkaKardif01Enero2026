@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Transcripción de la Sustentación Sofka Backend</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #fafbfc; color: #23272f; margin: 0; padding: 0; font-size: 1.35rem; line-height: 1.7; letter-spacing: 0.01em; }
+    .container { max-width: 950px; margin: 40px auto; background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-radius: 10px; padding: 32px 40px; }
+    h1 { color: #1565c0; }
+    h2 { color: #2e7d32; margin-top: 32px; }
+    h3 { color: #7b1fa2; margin-top: 24px; }
+    .note { background: #e3f2fd; border-left: 4px solid #1976d2; padding: 16px 20px; margin: 18px 0; border-radius: 7px; }
+    .note ul { list-style: disc inside; margin: 0; padding-left: 1.2em; }
+    .note li { margin-bottom: 3px; line-height: 1.35; }
+    .note p { margin: 0 0 6px 0; line-height: 1.5; }
+    .footer { text-align: right; color: #888; font-size: 1em; margin-top: 40px; }
+    .tag { background: #e3f2fd; color: #1565c0; border-radius: 4px; padding: 3px 8px; margin-left: 6px; font-size: 0.95em; }
+    dt { color: #2e7d32; font-weight: bold; margin-top: 10px; }
+    dd { margin-bottom: 10px; }
+    .params table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+    .params th, .params td { border: 1px solid #ccc; padding: 6px; }
+    .important { background: #fffde7; border-left: 4px solid #fbc02d; padding: 12px 18px; margin: 18px 0; border-radius: 5px; }
+    .sideEffects ul, .solid ul { margin: 0; padding-left: 20px; }
+    @media (max-width: 600px) { .container { padding: 16px 8px; } }
+    pre { background: #f6f8fa; padding: 14px; border-radius: 8px; overflow: auto; font-size: 0.92em; }
+    code { font-family: Consolas, 'Courier New', monospace; }
+    .row { display:flex; gap:20px; flex-wrap:wrap; }
+    .col { flex:1 1 420px; }
+    .endpoint { border: 1px solid #e0e0e0; padding: 12px 14px; border-radius: 8px; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.04); }
+    .json { white-space: pre; font-family: Consolas, 'Courier New', monospace; font-size: 0.95em; }
+    .success { color: #2e7d32; font-weight: 600; }
+    .error { color: #c62828; font-weight: 600; }
+    .slide { margin-top: 32px; }
+    .slide p { margin-bottom: 10px; }
+    .slide ul { list-style: disc inside; margin: 12px 0; }
+    .slide li { margin-bottom: 6px; }
+    .advanced { margin-top: 40px; }
+    .advanced article { border-left: 4px solid #90caf9; padding-left: 16px; margin-bottom: 24px; }
+    .advanced pre { margin-top: 10px; font-size: 1em; }
+    .impact { margin-top: 40px; }
+    .concept { color: #1e88e5; border-bottom: 1px dashed currentColor; cursor: pointer; }
+    .concept:hover { color: #0d47a1; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; padding: 24px; z-index: 1000; }
+    .modal-backdrop.active { display: flex; }
+    .modal { background: #fff; border-radius: 12px; box-shadow: 0 16px 48px rgba(0,0,0,0.35); max-width: 640px; width: 100%; padding: 28px 34px; position: relative; }
+    .modal h4 { margin-top: 0; color: #0d47a1; }
+    .modal p { margin-bottom: 0; line-height: 1.4; }
+    .modal-close { position: absolute; right: 18px; top: 18px; border: none; background: transparent; font-size: 1.4rem; cursor: pointer; color: #555; }
+    .modal-close:hover { color: #000; }
+    @media (max-width: 900px) { body { font-size: 1.2rem; } }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <header>
+      <h1>🎤 SPEECH TÉCNICO – SUSTENTACIÓN SOFKA BACKEND</h1>
+      <p>Guía completa del discurso y respuestas técnicas para presentar el backend de liquidación de comisiones con claridad y buena legibilidad desde un smart TV.</p>
+      <div class='note'>Diseñado para verse desde la cama en un smart TV: tipografía amplia, contraste alto y espaciado generoso para que cada frase sea fácil de leer a distancia.</div>
+    </header>
+    <section class='slide'>
+      <h2>🟦 SLIDE 1 – TÍTULO</h2>
+      <p>“Buenos días. Mi nombre es Aura Cristina Garzón Rodríguez.”</p>
+      <p>“Voy a explicar cómo diseñé y construí el backend del sistema de liquidación de comisiones, enfocándome en tres aspectos clave:”</p>
+      <ul>
+        <li><strong>Asincronía real con <span class="concept" data-title="WebFlux" data-detail="WebFlux implementa el stack reactivo de Spring sobre Reactor y Reactive Streams (org.reactivestreams) para garantizar Publisher/Subscriber no bloqueantes.<br>Opera sobre servidores como Reactor Netty o Undertow y aplica los principios del Reactive Manifesto (responsive, resilient, elastic, message driven).<br>El módulo WebFlux respeta HTTP/2 y WebSocket sin bloquear hilos, y expone rutas declarativas con @RestController y RouterFunction.<br>Se integra con Micrometer, OpenTelemetry y políticas OWASP para que APIs reactivas cumplan controles de seguridad y observabilidad.">WebFlux</span></strong> que es el stack reactivo de Spring para crear aplicaciones no bloqueantes y orientadas a eventos. Cuando hablo de asincronía real con WebFlux, me refiero a que el backend no bloquea hilos mientras espera operaciones de entrada y salida, como acceso a base de datos.</li>
+        <li><strong><span class="concept" data-title="Persistencia relacional consistente" data-detail="La persistencia respeta el estándar SQL ISO/IEC 9075 y asegura constraints definidos por ISO/IEC 2382 para los términos de datos.<br>Las transacciones son ACID completo (X/Open XA) y se documentan con WAL y auditoría para evitar estados intermedios.<br>Los niveles de aislamiento ANSI (READ COMMITTED, SERIALIZABLE) se configuran según cada operación crítica para evitar dirty reads.<br>Se mantienen índices y checkpoints alineados con prácticas DBA y monitoreo de actuators para asegurar throughput financiero.">Persistencia relacional consistente</span></strong>, es decir que aunque el procesamiento sea asíncrono, los datos se almacenan en una base relacional que garantiza integridad, consistencia y trazabilidad, fundamentales en sistemas financieros.</li>
+        <li><strong>Aplicación práctica de <span class="concept" data-title="Principios SOLID" data-detail="SOLID reúne SRP, OCP, LSP, ISP y DIP para mantener cada clase con responsabilidad única, extensible y testeable.<br>Este proyecto valida SRP en controllers, services y reglas particulares y OCP en CommissionRule para ampliaciones sin modificaciones centrales.<br>LSP, ISP y DIP se siguen con interfaces bien definidas y dependencias invertidas mediante Spring IoC.<br>El cumplimiento se revisa en code reviews y SonarQube, generando documentación viva para auditores técnicos.">principios SOLID</span></strong> en un contexto financiero para asegurar mantenibilidad y evolución controlada del código.</li>
+      </ul>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 2 – FLUJOS ASÍNCRONOS Y PERSISTENCIA</h2>
+      <p>“Esta aplicación es una <span class="concept" data-title="API reactiva" data-detail="Una API reactiva sigue Reactive Streams 1.0 y el Reactive Manifesto para no bloquear hilos e implementar backpressure correcto.<br>Los eventos HTTP, WebSocket o SSE fluyen como Publisher y Subscriber a través de Mono y Flux hasta la base.<br>Se documenta la API con OpenAPI 3.1 y SpringDoc para que cada contrato refleje su comportamiento reactivo.<br>Las métricas de Micrometer + OpenMetrics recogen latencias sin interferir en el flujo de datos.">API reactiva</span>, lo que significa que está diseñada para responder a eventos y manejar múltiples solicitudes concurrentes sin bloquear recursos.”</p>
+      <p>“Un flujo no bloqueante implica que el sistema no se queda esperando a que termine una operación de base de datos o de red para continuar.”</p>
+      <p>“Para esto se usan los tipos reactivos <span class="concept" data-title="Mono" data-detail="Mono representa un Publisher que emite cero o un solo elemento y luego completa o falla, respetando demande y cancel de Reactive Streams.<br>Se usa para las respuestas 1:1 y se prueba con StepVerifier para validar cada emisión y su contexto.<br>Operadores como map, flatMap y flatMapMany se usan sin bloquear y se evita block() en producción.<br>El contexto de seguridad y trazabilidad se propaga sin bloqueos gracias a Reactor hooks.">Mono</span>, que representa un solo resultado, y <span class="concept" data-title="Flux" data-detail="Flux implementa Reactive Streams para emitir cero a N elementos con soporte de backpressure y operadores como window, buffer, merge y concatMap.<br>Es ideal para colecciones de comisiones, topics o eventos financieros que pueden fluir indefinidamente.<br>Las pruebas utilizan StepVerifier y WebTestClient para validar secuencias completas y errores como onErrorResume o retryWhen.<br>El control de tasa se gestiona con limitRate y bufferStrategy para evitar sobresaturar consumidores.">Flux</span>, que representa múltiples resultados.”</p>
+      <p>“Al usar Mono y Flux desde el controlador hasta el repositorio, se mantiene un IO reactivo de extremo a extremo, sin romper el modelo reactivo en ninguna capa.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 3 – ASINCRONÍA EN EL CONTROLADOR</h2>
+      <p>“En el controlador, específicamente en <span class="concept" data-title="TransactionController" data-detail="TransactionController expone verbos HTTP siguiendo convenciones REST y valida payloads con Jakarta Validation.<br>Actúa como gateway para authentication headers, content negotiation y correlationId sin contener lógica de negocio.<br>Documenta endpoints con OpenAPI 3 y Swagger para que QA entienda entradas y salidas.<br>Se apoya en la responsabilidad única y testeo con WebTestClient sin tocar la base.">TransactionController</span>, los endpoints retornan un <em>Mono<TransactionResponse></em>.”</p>
+      <p>“Esto indica que el controlador no bloquea el hilo, no contiene lógica de negocio y solo delega el procesamiento al servicio.”</p>
+      <p>“De esta forma, el backend puede atender muchas solicitudes concurrentes sin degradar el rendimiento.”</p>
+      <p>“Su única responsabilidad es adaptar HTTP al dominio.”</p>
+      <div class='note'>“Esto cumple el principio de responsabilidad única y permite escalar el backend sin saturar el thread pool.”</div>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 4 – PERSISTENCIA RELACIONAL REACTIVA</h2>
+      <p>“Aunque el flujo de la aplicación es asíncrono, la persistencia es relacional y sólida.”</p>
+      <p>“Se usa <span class="concept" data-title="R2DBC" data-detail="R2DBC (Reactive Relational Database Connectivity) es un SPI oficial que mantiene Mono y Flux desde DatabaseClient hasta ConnectionFactory sin bloquear.<br>Expone drivers certificados (PostgreSQL, H2) que implementan Reactive Streams y propagación de backpressure.<br>El pooling se configura con ConnectionFactoryOptions y timeouts para evitar fugas de recursos.<br>Se evitan JPA o JDBC tradicionales y se usan scripts SQL y parameter binding dentro de la cadena reactiva.">R2DBC</span>, que es una especificación para acceso reactivo a bases de datos relacionales, junto con <span class="concept" data-title="H2" data-detail="H2 es una base relacional embebida compatible con SQL ISO/IEC 9075 y sus dialectos estándar, ideal para pruebas locales y CI.<br>Puede ejecutarse en memoria para evitar infraestructuras y actúa como Postgres o MySQL en validaciones rápidas.<br>Soporta drivers JDBC y R2DBC y permite habilitar logging TRACE en queries sin bloquear.<br>Se reinicia entre pruebas para garantizar estados limpios usando Flyway o Liquibase.">H2</span> en memoria para este ejercicio.”</p>
+      <p>“Esto permite manejar <span class="concept" data-title="Transacciones ACID" data-detail="Las transacciones ACID (atomicidad, consistencia, aislamiento, durabilidad) siguen las pautas de X/Open XA y ANSI SQL.<br>Atomicity asegura commit o rollback completo y Consistency mantiene constraints y triggers.<br>Isolation usa niveles como SERIALIZABLE o REPEATABLE READ para prevenir dirty reads y phantom reads.<br>Durabilidad se logra con Write-Ahead Log y checkpoints para que cada cambio financiero sea rastreable.">transacciones ACID</span>, es decir, atómicas, consistentes, aisladas y durables, sin romper el <span class="concept" data-title="Modelo reactivo" data-detail="El modelo reactivo combina Reactive Streams, Reactor y el Reactive Manifesto para procesar flujos sin bloquear hilos.<br>Desde el controller hasta el repositorio se mantiene Mono y Flux para responder a eventos.<br>Se maneja el error mediante operadores en el flujo en lugar de try/catch tradicionales.<br>Backpressure regula la velocidad de procesamiento y la observabilidad se expone sin detener el stream.">modelo reactivo</span>.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 5 – PRINCIPIOS SOLID</h2>
+      <p>“El diseño del proyecto está fuertemente guiado por principios SOLID, con el objetivo de que el código sea mantenible, extensible y fácil de probar.”</p>
+      <p>“Cada capa tiene una responsabilidad clara y las dependencias están desacopladas mediante interfaces.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 6 – SRP: RESPONSABILIDAD ÚNICA</h2>
+      <p>“Un ejemplo claro de SRP es la separación entre:</p>
+      <ul>
+        <li><strong><span class="concept" data-title="TransactionController" data-detail="TransactionController expone verbos HTTP siguiendo convenciones REST y valida payloads con Jakarta Validation.<br>Actúa como gateway para authentication headers, content negotiation y correlationId sin contener lógica de negocio.<br>Documenta endpoints con OpenAPI 3 y Swagger para que QA entienda entradas y salidas.<br>Se apoya en la responsabilidad única y testeo con WebTestClient sin tocar la base.">TransactionController</span>,</strong> que solo maneja HTTP.</li>
+        <li><strong><span class="concept" data-title="TransactionService" data-detail="TransactionService orquesta CommissionRule, valida entradas y coordina persistencia bajo un servicio de dominio.<br>También asegura trazabilidad financiera y seguridad antes de delegar a TransactionRepository.<br>Opera con PlatformTransactionManager, ReactiveTransactionManager y retries configurados para cumplir acuerdos de servicio.<br>Las métricas de latencia y throughput se exponen para monitoreo y mejora continua.">TransactionService</span>,</strong> que orquesta reglas y persistencia.</li>
+        <li><strong><span class="concept" data-title="ThresholdCommissionRule" data-detail="ThresholdCommissionRule implementa CommissionRule con umbrales parametrizados por application.properties.<br>El patrón Strategy permite agregar nuevas reglas sin tocar TransactionService y reutiliza el mismo contrato de matches y apply.<br>Documenta qué umbral, tasa o nivel se aplicó y registra esta decisión para auditoría (ISO 20022, RFC 7807).<br>Se prueba con escenarios de edge cases para validar porcentajes y rangos en masa.">ThresholdCommissionRule</span>,</strong> que encapsula una única regla de comisión.</li>
+      </ul>
+      <p>“De esta forma, un cambio en la lógica de negocio no impacta la capa web, y viceversa, lo que reduce el acoplamiento y facilita la evolución del sistema.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 7 – OCP Y DIP: REGLAS DE NEGOCIO</h2>
+      <p>“El principio Open/Closed se aplica en la interfaz <span class="concept" data-title="CommissionRule" data-detail="CommissionRule es la interfaz contractiva que define matches y apply y sigue el patrón Strategy para reglas flexibles.<br>Se versionan las reglas y se registran en catálogos de gobernanza financiera para trazabilidad.<br>Permite extender el servicio sin modificar su core, cumpliendo con el principio Open/Closed.<br>Se documentan los contratos con Swagger y se inyectan como beans para facilitar tests.">CommissionRule</span> y sus implementaciones como <span class="concept" data-title="ThresholdCommissionRule" data-detail="ThresholdCommissionRule implementa CommissionRule con umbrales parametrizados por application.properties.<br>El patrón Strategy permite agregar nuevas reglas sin tocar TransactionService y reutiliza el mismo contrato de matches y apply.<br>Documenta qué umbral, tasa o nivel se aplicó y registra esta decisión para auditoría (ISO 20022, RFC 7807).<br>Se prueba con escenarios de edge cases para validar porcentajes y rangos en masa.">ThresholdCommissionRule</span>, permitiendo agregar nuevas reglas sin modificar el servicio.”</p>
+      <p>“<span class="concept" data-title="Interface Segregation" data-detail="Interface Segregation Principle recomienda interfaces estrechas y específicas para cada consumidor.<br>CommissionRule expone solo matches y apply y TransactionRepository solo las operaciones necesarias.<br>OpenAPI y DTOs reflejan esta separación evitando interfaces gordas.<br>Las code reviews verifican que no se agreguen métodos innecesarios en los contratos.">Interface Segregation</span> se ve en CommissionRule, que define solo los métodos necesarios: <strong>matches</strong> y <strong>apply</strong>.”</p>
+      <p>“<span class="concept" data-title="Dependency Inversion" data-detail="Dependency Inversion Principle dicta depender de abstracciones y no de implementaciones concretas.<br>TransactionService inyecta CommissionRule y TransactionRepository mediante constructor injection y Spring IoC.<br>Se evita acoplar en pruebas unitarias, permitiendo mocks livianos.<br>Las interfaces pequeñas se documentan en la arquitectura para cumplir la estrategia de TI.">Dependency Inversion</span> se aplica en TransactionService, que depende de la abstracción CommissionRule y de <span class="concept" data-title="TransactionRepository" data-detail="TransactionRepository implementa Spring Data repository con R2DBC y DatabaseClient para cada operación reactiva.<br>Utiliza RowMapper y TransactionalOperator para mapear rows y coordinar commits.<br>Sanitiza inputs, expone Mono y Flux y reporta latencias con metrics y tracing.<br>Se monitorean pools y throughput para no saturar la base.">TransactionRepository</span>, no de implementaciones concretas.”</p>
+      <p>“Esto hace el diseño flexible y fácil de testear.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 8 – ¿POR QUÉ ASINCRONÍA EN EL BACKEND?</h2>
+      <p>“Aunque <span class="concept" data-title="Angular" data-detail="Angular, basado en TypeScript y RxJS 7, maneja asincronía en el cliente con Observables pero deja la lógica financiera crítica al backend.<br>HttpClient negocia headers, tokens y content types, y los interceptores aplican OWASP y CORS.<br>El lazy loading mantiene performance y las pruebas E2E con Protractor o Cypress cierran el ciclo.<br>Los servicios singleton comparten estado mínimo y los errores globales se capturan con interceptores.">Angular</span> maneja asincronía para la experiencia de usuario, la lógica crítica del negocio financiero debe ejecutarse en el backend.”</p>
+      <p>“En este proyecto, el cálculo de comisiones se controla desde TransactionService, garantizando seguridad, consistencia y trazabilidad, independientemente del cliente que consuma la API.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 9 – CONSISTENCIA Y MANEJO DE FALLOS</h2>
+      <p>“Aunque el procesamiento es asíncrono, la consistencia se garantiza con persistencia relacional.”</p>
+      <p>“Si ocurre un error durante el cálculo o la persistencia, el flujo reactivo falla y la transacción no se guarda.”</p>
+      <p>“Esto evita estados inconsistentes y es esencial en sistemas financieros donde no se permite información parcial o duplicada.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 10 – REGLAS DINÁMICAS Y ESCALABILIDAD</h2>
+      <p>“Las reglas de comisión no están quemadas en el código.”</p>
+      <p>“Se configuran desde <span class="concept" data-title="application.properties" data-detail="application.properties es el archivo estándar de Spring Boot para externalizar tasas, umbrales y secretos.<br>Sigue la guía oficial de propiedades y permite perfiles (dev, prod, test) para valores concretos.<br>Se integra con Spring Cloud Config o Vault cuando se requiere cifrado y control de accesos.<br>Los cambios se versionan vía GitOps y se documentan en el catálogo de configuración.">application.properties</span>, lo que permite cambiar tasas o rangos sin recompilar ni redeplegar.”</p>
+      <p>“Además, el backend es <span class="concept" data-title="Stateless" data-detail="Stateless es la restricción REST que impide guardar sesiones en el servidor (Fielding, HTTP/1.1).<br>Los tokens en headers (JWT, OAuth2) transportan identidad y los load balancers replican instancias sin sticky sessions.<br>El backend no guarda estado entre solicitudes para permitir escalado horizontal y observability.<br>Los correlationId aseguran trazabilidad sin depender de variables globales.">stateless</span> y <span class="concept" data-title="Reactivo" data-detail="Reactivo resume el enfoque que prioriza canales no bloqueantes y eventos (Reactive Manifesto).<br>Reactor y los módulos reactivas de Spring implementan este paradigma con Mono, Flux y Scheduler.<br>ISO 25010 impulsa calidad en este tipo de sistemas y se monitorean errores con operadores como onErrorResume.<br>El equipo se entrena en contextos de Reactor y documenta cada flujo para facilitar el onboarding.">reactivo</span>.  Esto significa que no guarda estado en memoria entre solicitudes; cada request es independiente.”</p>
+      <p>“Al ser reactivo, puede manejar muchas solicitudes concurrentes con pocos recursos.”</p>
+      <p>“Esto permite escalar horizontalmente, es decir, ejecutar múltiples instancias del backend en paralelo sin afectar la integridad de los datos, ya que la base relacional sigue siendo la fuente de verdad.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🟦 SLIDE 11 – CONCLUSIÓN</h2>
+      <p>“En resumen, el proyecto combina asincronía real con WebFlux, persistencia relacional consistente y principios SOLID para construir una solución financiera escalable y mantenible.”</p>
+      <p>“Es una base sólida para evolucionar a producción incorporando monitoreo, reintentos o una arquitectura orientada a eventos.”</p>
+    </section>
+    <section class='slide'>
+      <h2>🎯 FRASES FINALES</h2>
+      <p class='important'>“Mi enfoque fue priorizar la consistencia y la claridad del diseño, entendiendo que en sistemas financieros la confiabilidad del dato es más importante que cualquier optimización prematura.”</p>
+      <p class='note'>“El diseño prioriza consistencia, desacoplamiento y claridad, entendiendo que en sistemas financieros la confiabilidad del dato es el principal valor.”</p>
+    </section>
+    <section class='advanced'>
+      <h2>🧠 WEBFLUX vs SPRING MVC – RESPUESTAS TÉCNICAS AVANZADAS</h2>
+      <article>
+        <h3>🔹 1. ¿Por qué usaste WebFlux y no Spring MVC?</h3>
+        <p>“Elegí WebFlux porque el problema planteado requiere manejar múltiples transacciones concurrentes sin bloquear hilos.”</p>
+        <p>“Spring MVC es síncrono y bloqueante: cada request ocupa un hilo hasta que termina.”</p>
+        <p>“WebFlux, en cambio, usa un <span class="concept" data-title="Event-driven" data-detail="Event-driven Architecture reacciona a eventos en lugar de llamadas sincrónicas, siguiendo patrones EDA.<br>Se usan contratos versionados (Event Schema Registry) y sagas para garantizar consistencia.<br>Los eventos se prueban con simuladores y time travel para preservar el orden y la latencia.<br>Las métricas de entrega (at-least-once, exactly-once) se verifican en los acuerdos del broker.">modelo event-driven</span> y no bloqueante, permitiendo mayor eficiencia bajo carga.”</p>
+        <p class='note'>“En el proyecto, desde TransactionController hasta TransactionRepository, todo retorna Mono o Flux, evitando bloqueos en operaciones de base de datos.”</p>
+      </article>
+      <article>
+        <h3>🔹 2. ¿WebFlux es siempre mejor que MVC?</h3>
+        <p>“No. WebFlux no es mejor en todos los casos.”</p>
+        <p>“Si el sistema es simple, con baja concurrencia o con librerías bloqueantes, Spring MVC es más sencillo y suficiente.”</p>
+        <p>“WebFlux tiene sentido cuando el sistema necesita alta concurrencia, eficiencia de recursos o integración con flujos reactivos, como en este módulo financiero.”</p>
+        <p class='success'>Esta respuesta demuestra criterio arquitectónico, no moda.</p>
+      </article>
+      <article>
+        <h3>🔹 3. ¿Qué significa realmente que WebFlux sea no bloqueante?</h3>
+        <p>“Significa que el hilo que atiende una petición no se queda esperando a que termine una operación de IO, como una consulta a base de datos.”</p>
+        <p>“En lugar de eso, el hilo se libera y el sistema continúa cuando llega el evento de respuesta.”</p>
+        <pre><code>repository.save(record)
+    .map(TransactionResponse::from);</code></pre>
+        <p class='note'>“Aquí no se bloquea el hilo esperando el save; se reacciona cuando el resultado está disponible.”</p>
+      </article>
+      <article>
+        <h3>🔹 4. ¿Qué pasa si usas WebFlux con algo bloqueante?</h3>
+        <p>“Si se usan operaciones bloqueantes dentro de WebFlux, se rompe el modelo reactivo y se pierde el beneficio.”</p>
+        <p>“Por eso en este proyecto usé R2DBC, que es acceso reactivo a bases de datos relacionales, en lugar de JPA, que es bloqueante.”</p>
+        <p class='error'>⚠️ Punto clave para jurado.</p>
+      </article>
+      <article>
+        <h3>🔹 5. ¿Qué diferencia hay entre R2DBC y JPA/Hibernate?</h3>
+        <p>“JPA/Hibernate es bloqueante y está basado en un modelo imperativo.”</p>
+        <p>“R2DBC, en cambio, es una especificación diseñada para trabajar con flujos reactivos, devolviendo Mono y Flux, lo que permite mantener IO no bloqueante de extremo a extremo.”</p>
+        <p class='note'>“Esto es lo que me permite usar WebFlux sin romper la asincronía en la capa de persistencia.”</p>
+      </article>
+      <article>
+        <h3>🔹 6. ¿Cómo maneja WebFlux la concurrencia comparado con MVC?</h3>
+        <p>“Spring MVC escala agregando más hilos.”</p>
+        <p>“WebFlux escala manejando más eventos con menos hilos.”</p>
+        <p>“Esto hace que WebFlux sea más eficiente en escenarios de alta concurrencia, como sistemas financieros con múltiples transacciones simultáneas.”</p>
+      </article>
+      <article>
+        <h3>🔹 7. ¿Qué es el event loop en WebFlux?</h3>
+        <p>“WebFlux se apoya en un <span class="concept" data-title="Event loop" data-detail="El event loop de Reactor Netty supervisa IO sin bloquear, coordinando boss y worker threads (Netty 4.x).<br>Libera hilos hasta que read/write complete se dispara, y los handlers pequeños procesan codecs HTTP/2.<br>Se prohíbe ejecutar operaciones bloqueantes dentro del loop y se delega a schedulers boundedElastic cuando hace falta.<br>Los hooks y logging permiten diagnosticar cuellos de botella en producción.">modelo de event loop</span>, normalmente sobre <span class="concept" data-title="Netty" data-detail="Netty es el servidor no bloqueante sobre el que WebFlux corre y aprovecha NIO, epoll y kqueue.<br>Soporta HTTP/1.1, HTTP/2 y WebSocket sin bloquear y usa ByteBuf pooling para reducir presión de GC.<br>Las pipelines de handlers y codecs se configuran para TLS/SSL y compresión sin bloquear.<br>Se monitorean conexiones y latencias con métricas específicas de Netty.">Netty</span>.”</p>
+        <p>“Un pequeño número de hilos gestiona muchos eventos de entrada y salida, reaccionando cuando hay datos disponibles, en lugar de esperar bloqueado.”</p>
+        <p class='note'>✔ No profundices más a menos que te lo pidan.</p>
+      </article>
+      <article>
+        <h3>🔹 8. ¿Cómo manejas errores en WebFlux frente a MVC?</h3>
+        <p>“En lugar de try-catch, WebFlux maneja errores como parte del flujo.”</p>
+        <p>“En el proyecto uso un <span class="concept" data-title="GlobalErrorHandler" data-detail="GlobalErrorHandler implementa WebExceptionHandler para interceptar errores de Reactor y convertirlos a Problem Details (RFC 7807).<br>Registra trazas y correlationId en cada fallo y evita revelar información sensible en los payloads.<br>Respeta códigos HTTP 4xx/5xx definidos por RFC 9110 y mantiene respuestas uniformes.<br>Las pruebas con WebTestClient y StepVerifier validan todos los escenarios de fallo previstos.">GlobalErrorHandler</span> para devolver respuestas uniformes cuando el Mono falla, manteniendo consistencia en la API.”</p>
+      </article>
+      <article>
+        <h3>🔹 9. ¿WebFlux reemplaza a MVC en Spring?</h3>
+        <p>“No. Ambos coexisten.”</p>
+        <p>“Spring permite elegir MVC o WebFlux según el caso de uso.”</p>
+        <p>“En este proyecto, WebFlux fue la mejor opción por el enfoque en asincronía y escalabilidad.”</p>
+      </article>
+      <article>
+        <h3>🔹 10. ¿Cuándo NO usarías WebFlux?</h3>
+        <p>“No usaría WebFlux si:</p>
+        <ul>
+          <li>El sistema es simple y de baja carga.</li>
+          <li>Las dependencias son bloqueantes.</li>
+          <li>El equipo no tiene experiencia reactiva.</li>
+        </ul>
+        <p>“En esos casos, Spring MVC es más claro y menos complejo.”</p>
+        <p class='success'>✅ Esta respuesta senior cierra la conversación.</p>
+      </article>
+    </section>
+    <section class='impact'>
+      <div class='important'>
+        <h3>🎯 RESPUESTA FINAL DE IMPACTO (si te retan)</h3>
+        <p>“WebFlux no es una moda; es una herramienta.”</p>
+        <p>“En este proyecto lo usé porque el problema requería asincronía real, eficiencia y consistencia financiera.”</p>
+        <p>“Si el contexto fuera diferente, elegiría MVC sin problema.”</p>
+      </div>
+    </section>
+    <div class='footer'>Optimizado para smart TV · Sustentación lista para leer en pantallas grandes.</div>
+    <div class="modal-backdrop" id="conceptModal">
+      <div class="modal">
+        <button class="modal-close" id="modalClose" aria-label="Cerrar">×</button>
+        <h4 id="modalTitle"></h4>
+        <p id="modalDetail"></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const modal = document.getElementById('conceptModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDetail = document.getElementById('modalDetail');
+    const closeModal = document.getElementById('modalClose');
+    document.querySelectorAll('.concept').forEach(item => {
+      item.addEventListener('click', () => {
+        const title = item.dataset.title || 'Concepto';
+        const detail = item.dataset.detail || 'Definición en preparación.';
+        modalTitle.textContent = title;
+        modalDetail.innerHTML = detail;
+        modal.classList.add('active');
+      });
+    });
+    closeModal.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') modal.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
