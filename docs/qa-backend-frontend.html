@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8'>
+  <title>QA Backend y Frontend</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #ebeef6;
+  color: #0f172a;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  color: #1f2937;
+}
+header p {
+  margin: 0;
+  font-size: 1rem;
+  color: #475569;
+}
+section {
+  margin-top: 40px;
+}
+section h2 {
+  margin-bottom: 18px;
+  font-size: 1.5rem;
+  color: #111827;
+}
+.qa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+.qa-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.12);
+  transition: transform 0.2s ease;
+}
+.qa-card:hover {
+  transform: translateY(-3px);
+}
+.qa-question,
+.qa-answer {
+  margin: 6px 0;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+.qa-question {
+  font-weight: 600;
+}
+.qa-answer {
+  color: #1f2937;
+}
+.label {
+  font-weight: 700;
+  color: #1d4ed8;
+  margin-right: 6px;
+}
+.qa-number {
+  font-weight: 700;
+  color: #0f172a;
+  margin-right: 8px;
+}
+.reference {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #475569;
+}
+.reference a {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+.reference a:hover {
+  text-decoration: underline;
+}
+footer {
+  margin-top: 48px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 20px 16px 40px;
+  }
+  .qa-card {
+    padding: 16px;
+  }
+}
+</style>
+</head>
+<body>
+  <div class='container'>
+    <header>
+      <h1>QA técnico – Backend y Frontend</h1>
+      <p>100 respuestas que describen los conceptos aplicados y sus beneficios.</p>
+    </header>
+    <section><h2>Backend: 50 preguntas técnicas</h2><div class='qa-grid'>
+  <article class='qa-card' id='backend-1'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>1.</span>﻿¿Por qué se eligió Spring WebFlux para el backend y qué beneficio aporta este stack?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El backend declara la dependencia org.springframework.boot:spring-boot-starter-webflux en backend/PruebaTecnicaACGRJavaBackend/build.gradle, activando el stack reactivo para atender peticiones concurrentes y evitar bloqueos de hilos como ocurre en Spring MVC, lo que mejora la eficiencia del módulo financiero.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/build.gradle' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/build.gradle</a></span>
+  </article>
+  <article class='qa-card' id='backend-2'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>2.</span>¿Cómo se refleja la asincronía en los endpoints del controlador?</p>
+    <p class='qa-answer'><span class='label'>R:</span>En backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java los endpoints devuelven Flux<TransactionResponse> y Mono<TransactionResponse> delegando la lógica al servicio, por lo que la capa HTTP nunca bloquea hilos y mantiene el flujo reactivo.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-3'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>3.</span>¿Qué responsabilidad cumple TransactionController y por qué se mantiene delgado?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionController valida el DTO y llama a TransactionService sin ejecutar reglas de negocio, cumpliendo el principio de responsabilidad única para que la capa web solo adapte HTTP.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/web/TransactionController.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+  <article class='qa-card' id='backend-4'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>4.</span>¿Cómo se valida el monto entrante antes de procesarlo?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionRequest define @NotNull y @DecimalMin, y el controlador lo recibe con @Valid, de modo que solo montos positivos y obligatorios alcanzan el flujo de negocio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionRequest.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionRequest.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-5'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>5.</span>¿Cuál es el papel de TransactionService?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionService coordina la aplicación de reglas, la persistencia y la publicación de eventos sin tomar decisiones de transporte, manteniendo la lógica financiera centralizada.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+  <article class='qa-card' id='backend-6'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>6.</span>¿Cómo opera el método registerTransaction en el servicio?</p>
+    <p class='qa-answer'><span class='label'>R:</span>registerTransaction aplica una regla, crea un TransactionRecord, lo persiste con repository.save y publica un TransactionEvent mediante TransactionEventPublisher dentro de un pipeline reactivo para preservar la trazabilidad.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-7'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>7.</span>¿Cómo se consulta el historial de transacciones en el servicio?</p>
+    <p class='qa-answer'><span class='label'>R:</span>getAllTransactions recorre repository.findAll(), recalcula la comisión usando applyRule y devuelve TransactionResponse, asegurando consistencia sin duplicar lógica.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-8'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>8.</span>¿Para qué sirve applyRule?</p>
+    <p class='qa-answer'><span class='label'>R:</span>applyRule filtra el List<CommissionRule> y ejecuta matches y apply de la primera coincidencia, manteniendo la decisión de tasas desacoplada del servicio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-9'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>9.</span>¿Qué comportamientos define la interfaz CommissionRule?</p>
+    <p class='qa-answer'><span class='label'>R:</span>CommissionRule expone únicamente matches y apply para mantener el contrato de reglas abierto a nuevas implementaciones sin tocar el servicio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-10'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>10.</span>¿Qué encapsula ThresholdCommissionRule?</p>
+    <p class='qa-answer'><span class='label'>R:</span>ThresholdCommissionRule guarda umbrales, la tasa y la plantilla de razón, calculando la comisión de forma precisa y centralizada para cumplir SRP.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-11'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>11.</span>¿Cómo se configuran las reglas desde propiedades?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionRulesConfiguration construye los beans de CommissionRule leyendo TransactionRulesProperties, permitiendo cambiar tasas y umbrales desde la configuración sin tocar código.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/TransactionRulesConfiguration.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/TransactionRulesConfiguration.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionRulesProperties.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionRulesProperties.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-12'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>12.</span>¿Qué ocurre si no hay reglas definidas?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionRulesConfiguration detecta la lista vacía y crea dos ThresholdCommissionRule con tasas del 2% y 5%, asegurando siempre un comportamiento definido.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/TransactionRulesConfiguration.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/TransactionRulesConfiguration.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-13'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>13.</span>¿Qué hace TransactionRulesProperties?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionRulesProperties expone el listado de RuleDefinition que el binder de Spring Boot llena desde transaction.rules, manteniendo la configuración centrada en datos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionRulesProperties.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionRulesProperties.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-14'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>14.</span>¿Qué campos incluye RuleDefinition?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Cada RuleDefinition tiene minAmount, maxAmount, rate y reasonTemplate, describiendo los límites sin lógica adicional para facilitar la evolución.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-15'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>15.</span>¿Para qué sirve CommissionResult?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El record CommissionResult transporta la tasa aplicada, la comisión calculada y la razón, sirviendo como vínculo ligero entre regla y servicio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionResult.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionResult.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-16'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>16.</span>¿Cómo se genera TransactionResponse?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionResponse.from toma el TransactionRecord, la tasa y la razón para mapear el DTO final que se envia al cliente, usando @JsonFormat para el timestamp.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-17'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>17.</span>¿Qué representa TransactionRecord?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionRecord mapea la tabla transactions con @Table y @Column y expone getters/setters simples para que el mapeador R2DBC solo trate datos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-18'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>18.</span>¿Por qué extender ReactiveCrudRepository?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionRepository hereda de ReactiveCrudRepository para recibir implementaciones reactivas de CRUD y mantener el flujo no bloqueante hasta la base de datos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/repository/TransactionRepository.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/repository/TransactionRepository.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-19'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>19.</span>¿Cómo se configura la conexión R2DBC?</p>
+    <p class='qa-answer'><span class='label'>R:</span>application.properties define spring.r2dbc.url=r2dbc:h2:mem:///commissiondb junto con usuario y contraseña vacíos, enlazando R2DBC con H2 en memoria.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-20'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>20.</span>¿Para qué sirve schema.sql?</p>
+    <p class='qa-answer'><span class='label'>R:</span>schema.sql crea la tabla transactions y se ejecuta en cada arranque gracias a spring.sql.init.mode=always para asegurar que la estructura exista.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/schema.sql' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/schema.sql</a></span>
+  </article>
+  <article class='qa-card' id='backend-21'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>21.</span>¿Por qué se incluye data.sql?</p>
+    <p class='qa-answer'><span class='label'>R:</span>data.sql permanece para permitir data seeds futuras y mantener coherencia con spring.sql.init.data-locations incluso si hoy solo tiene un comentario.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/data.sql' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/data.sql</a></span>
+  </article>
+  <article class='qa-card' id='backend-22'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>22.</span>¿Qué hace TransactionEventPublisher?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionEventPublisher usa KafkaTemplate y Mono.create para publicar eventos sin bloquear, manteniendo la cadena reactiva después de persistir.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-23'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>23.</span>¿Qué datos transporta TransactionEvent?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionEvent incluye id, monto, comisión, tasa, razón y executedAt para entregar el mínimo que necesita cualquier consumidor Kafka.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-24'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>24.</span>¿Cómo se define el tópico Kafka?</p>
+    <p class='qa-answer'><span class='label'>R:</span>La propiedad kardif.kafka.topic.transactions fija el nombre transactions para mantenerlo configurable desde application.properties.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-25'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>25.</span>¿Por qué se usa JsonSerializer para Kafka?</p>
+    <p class='qa-answer'><span class='label'>R:</span>spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer convierte TransactionEvent a JSON sin implementar serializadores manuales.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-26'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>26.</span>¿Qué aporta springdoc-openapi-starter-webflux-ui?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Esa dependencia en build.gradle genera documentación Swagger sobre los endpoints reactivos para probar contratos con el jurado.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/build.gradle' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/build.gradle</a></span>
+  </article>
+  <article class='qa-card' id='backend-27'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>27.</span>¿Cómo se ajustan las rutas de la documentación?</p>
+    <p class='qa-answer'><span class='label'>R:</span>application.properties asigna springdoc.api-docs.path=/api-docs y springdoc.swagger-ui.path=/swagger-ui/index.html para exponer la documentación en rutas conocidas.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-28'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>28.</span>¿Qué asegura spring.sql.init.platform=h2 y mode=always?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Esas propiedades garantizan que Spring ejecute scripts compatibles con H2 en cada arranque, dejando la base lista para pruebas y demos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-29'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>29.</span>¿Por qué se registra LocalDateTime.now()?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionService asigna LocalDateTime.now() al crear TransactionRecord para fijar el timestamp de ejecución y permitir trazabilidad temporal.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/model/TransactionRecord.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+  <article class='qa-card' id='backend-30'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>30.</span>¿Cómo calcula la comisión ThresholdCommissionRule?</p>
+    <p class='qa-answer'><span class='label'>R:</span>ThresholdCommissionRule multiplica el monto por la tasa y redondea a dos decimales, manteniendo el cálculo dentro de la regla para no dispersar la lógica.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-31'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>31.</span>¿Por qué se usa BigDecimal?</p>
+    <p class='qa-answer'><span class='label'>R:</span>BigDecimal se emplea en montos y tasas para evitar errores de punto flotante y mantener precisión financiera en los cálculos del servicio y las reglas.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-32'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>32.</span>¿Qué significa @Configuration(proxyBeanMethods = false)?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Esa anotación en TransactionRulesConfiguration evita proxies CGLIB innecesarios, acelerando el arranque ya que no hay llamadas entre beans.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/TransactionRulesConfiguration.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/config/TransactionRulesConfiguration.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-33'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>33.</span>¿Qué dependencias se inyectan en TransactionService?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El constructor recibe TransactionRepository, List<CommissionRule> y TransactionEventPublisher para no depender de implementaciones concretas.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/repository/TransactionRepository.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/domain/repository/TransactionRepository.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-34'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>34.</span>¿Qué sucede si applyRule no encuentra regla?</p>
+    <p class='qa-answer'><span class='label'>R:</span>applyRule lanza IllegalStateException cuando ninguna regla aplica, detectando configuraciones incompletas en tiempo de ejecución.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-35'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>35.</span>¿Qué efecto tiene @ResponseStatus(HttpStatus.CREATED)?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El POST devuelve 201 al crear una transacción, alineándose con prácticas REST y clarificando que se generó un nuevo recurso.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-36'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>36.</span>¿Cómo respeta el controlador SRP?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El controlador solo adapta HTTP y delega la lógica al servicio, manteniendo la capa web enfocada en el transporte.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-37'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>37.</span>¿Por qué TransactionResponse usa @JsonFormat?</p>
+    <p class='qa-answer'><span class='label'>R:</span>@JsonFormat en TransactionResponse garantiza un timestamp ISO que los clientes interpretan sin ambigüedad.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-38'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>38.</span>¿Cómo se publica el evento sin bloquear el flujo?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionEventPublisher.publish usa Mono.create y callbacks de KafkaTemplate para seguir la cadena reactiva y reportar entregas.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEventPublisher.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-39'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>39.</span>¿Cómo se encadena la persistencia y la publicación?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionService encadena repository.save().flatMap(...) y luego thenReturn para asegurarse de que la respuesta solo llegue cuando la publicación Kafka se completó.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+  <article class='qa-card' id='backend-40'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>40.</span>¿Qué ventaja ofrece spring.kafka.bootstrap-servers con variable de entorno?</p>
+    <p class='qa-answer'><span class='label'>R:</span>La propiedad spring.kafka.bootstrap-servers= permite apuntar a distintos clusters usando variables de entorno sin tocar código.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-41'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>41.</span>¿Por qué incluir io.r2dbc:r2dbc-h2?</p>
+    <p class='qa-answer'><span class='label'>R:</span>La dependencia io.r2dbc:r2dbc-h2 es el driver reactivo que habilita la comunicación no bloqueante con la base en memoria H2.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-42'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>42.</span>¿Qué hace runtimeOnly com.h2database:h2?</p>
+    <p class='qa-answer'><span class='label'>R:</span>runtimeOnly com.h2database:h2 incluye el motor H2 solo en tiempo de ejecución, evitando que se añada al classpath de compilación.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-43'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>43.</span>¿Por qué spring.main.web-application-type=reactive?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Esa propiedad indica a Spring Boot que use WebFlux/Netty y no MVC, alineándose con las dependencias declaradas.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-44'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>44.</span>¿Qué permite ReactiveCrudRepository?</p>
+    <p class='qa-answer'><span class='label'>R:</span>ReactiveCrudRepository trae métodos reactivas como save y findAll, asegurando que el repositorio soporte Flux/Mono.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-45'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>45.</span>¿Por qué TransactionRecord mantiene getters y setters simples?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Los accesores sencillos permiten que R2DBC hidrate la entidad sin lógica adicional, conservando la claridad de la persistencia.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-46'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>46.</span>¿Qué ventaja da usar record para DTOs?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionRequest y TransactionResponse son record, lo que reduce boilerplate y refuerza inmutabilidad en los DTOs.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionRequest.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionRequest.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/dto/TransactionResponse.java</a></span>
+  </article>
+  <article class='qa-card' id='backend-47'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>47.</span>¿Para qué sirve reasonTemplate?</p>
+    <p class='qa-answer'><span class='label'>R:</span>reasonTemplate en application.properties define mensajes legibles sobre por qué se aplica cada tasa y se usa en ThresholdCommissionRule.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/CommissionRule.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/rules/ThresholdCommissionRule.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-48'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>48.</span>¿Cómo parametrizan los umbrales los properties?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Las claves transaction.rules[0].max-amount y transaction.rules[1].min-amount permiten ajustar umbrales desde application.properties sin recompilar.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-49'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>49.</span>¿Por qué spring.kafka.producer.key-serializer usa StringSerializer?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Definir org.apache.kafka.common.serialization.StringSerializer evita que Kafka intente serializar claves complejas, asegurando interoperabilidad.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/resources/application.properties</a></span>
+  </article>
+  <article class='qa-card' id='backend-50'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>50.</span>¿Qué aporta el tipado KafkaTemplate<String, TransactionEvent>?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Ese tipo asegura que solo se publiquen TransactionEvent con claves string y ayuda a detectar errores en compilación.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/messaging/TransactionEvent.java</a></span>
+  </article>
+</div></section>
+    <section><h2>Frontend: 50 preguntas técnicas</h2><div class='qa-grid'>
+  <article class='qa-card' id='frontend-1'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>1.</span>﻿¿Por qué AppComponent es standalone y cómo influye en la carga?</p>
+    <p class='qa-answer'><span class='label'>R:</span>AppComponent es standalone y declara CommonModule y ReactiveFormsModule directamente para evitar NgModules adicionales, reduciendo la huella y permitiendo tree-shaking más efectivo en Angular 19 para acelerar el arranque.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-2'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>2.</span>¿Qué función cumple CommonModule en el componente?</p>
+    <p class='qa-answer'><span class='label'>R:</span>CommonModule se importa en el standalone component para habilitar directivas estructurales como *ngIf y pipes básicos sin un NgModule extra.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-3'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>3.</span>¿Por qué se importa ReactiveFormsModule?</p>
+    <p class='qa-answer'><span class='label'>R:</span>ReactiveFormsModule permite construir formularios reactivos y validaciones manuales, necesarios para validar montos antes de llamar al backend.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-4'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>4.</span>¿Cómo se construye transactionForm?</p>
+    <p class='qa-answer'><span class='label'>R:</span>FormBuilder crea el form group con el control amount y los validadores, manteniendo el componente legible y facilitando el reuso del formulario.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-5'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>5.</span>¿Por qué se aplica Validators.min(1)?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Validators.min(1) evita envíos de montos negativos o nulos desde la UI, protegiendo la lógica financiera sin escribir validaciones manuales del lado del servicio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-6'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>6.</span>¿Qué representa transactionsTrue</p>
+    <p class='qa-answer'><span class='label'>R:</span>transactions$ es un Observable de Transaction[] creado con merge de polling y refresh manual para mantener la tabla sincronizada sin subscripciones directas.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-7'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>7.</span>¿Cómo funciona el refresco manual?</p>
+    <p class='qa-answer'><span class='label'>R:</span>refreshNow emite en this.refresher para reactivar el pipeline de datos y permitir que botones o acciones externas soliciten la lista nuevamente.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-8'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>8.</span>¿Qué estrategia de polling se usa?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Se combina timer(0, 5000) y merge para actualizar la lista cada 5 segundos sin recargar toda la página.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-9'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>9.</span>¿Para qué sirve switchMap en transactionsTrue</p>
+    <p class='qa-answer'><span class='label'>R:</span>switchMap cancela solicitudes anteriores y considera sólo la última petición activa, manteniendo la UI alineada con los datos frescos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-10'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>10.</span>¿Qué aporta shareReplay?</p>
+    <p class='qa-answer'><span class='label'>R:</span>shareReplay evita múltiples llamadas HTTP cuando hay varios suscriptores y comparte el resultado más reciente, reduciendo la carga en el backend.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-11'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>11.</span>¿Cómo se maneja la creación de transacciones desde el componente?</p>
+    <p class='qa-answer'><span class='label'>R:</span>submitTransaction valida el formulario, actualiza flags y llama a TransactionService.create para mantener la separación entre UI y lógica de negocio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-12'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>12.</span>¿Qué hace catchError durante la creación?</p>
+    <p class='qa-answer'><span class='label'>R:</span>catchError captura errores HTTP y alimenta creationError con un mensaje amigable, evitando que el observable falle y manteniendo la UI activa.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-13'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>13.</span>¿Por qué se usa finalize tras crear transacciones?</p>
+    <p class='qa-answer'><span class='label'>R:</span>finalize asegura que creationPending vuelva a false sin importar si la petición fue exitosa o fallida, habilitando de nuevo el botón principal.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-14'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>14.</span>¿Cómo dispara submitTransaction un refresh después del éxito?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Dentro de tap se invoca refreshNow para recargar la lista con el nuevo registro.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-15'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>15.</span>¿Qué hace loadTransactions?</p>
+    <p class='qa-answer'><span class='label'>R:</span>loadTransactions controla listLoading/listError, llama a TransactionService.list() y registra la fecha de actualización, manteniendo la UI concreta.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-16'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>16.</span>¿Para qué sirve parseError?</p>
+    <p class='qa-answer'><span class='label'>R:</span>parseError normaliza errores y muestra un texto estable, evitando que se expongan detalles técnicos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-17'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>17.</span>¿Por qué TransactionService usa HttpClient?</p>
+    <p class='qa-answer'><span class='label'>R:</span>HttpClient desacopla las llamadas HTTP del componente y facilita el testing del servicio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-18'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>18.</span>¿Cuál es la base URL del backend?</p>
+    <p class='qa-answer'><span class='label'>R:</span>baseUrl apunta a http://localhost:8080/api/transactions para conectar con el backend WebFlux durante desarrollo local.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-19'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>19.</span>¿Qué hace list() en el servicio?</p>
+    <p class='qa-answer'><span class='label'>R:</span>list() ejecuta GET y ordena las transacciones por executedAt descendente para mostrar primero las más recientes.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-20'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>20.</span>¿Por qué se usa new Date(...).getTime() al ordenar?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Convierto la fecha en timestamp para garantizar un orden cronológico correcto en vez de comparar strings.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-21'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>21.</span>¿Qué hace create(amount)?</p>
+    <p class='qa-answer'><span class='label'>R:</span>create ejecuta POST con el monto y devuelve la entidad registrada, manteniendo el servicio enfocado en transporte de datos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-22'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>22.</span>¿Cómo se mantiene desacoplado el servicio?</p>
+    <p class='qa-answer'><span class='label'>R:</span>TransactionService no conoce estados de UI ni formularios, lo que facilita usar mocks en tests.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-23'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>23.</span>¿Cómo muestra la UI el estado de carga?</p>
+    <p class='qa-answer'><span class='label'>R:</span>app.component.html muestra *ngIf para listLoading con una clase loader que indica sincronización.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html</a></span>
+  </article>
+  <article class='qa-card' id='frontend-24'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>24.</span>¿Cómo usa el template el async pipe?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El template usa (transactions$ | async) para suscribirse y actualizar la tabla sin suscripciones manuales.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-25'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>25.</span>¿Por qué se aplica el pipe currency en la tabla?</p>
+    <p class='qa-answer'><span class='label'>R:</span>currency: 'COP' da formato local a monto y comisión, reforzando el contexto financiero del tablero.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-26'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>26.</span>¿Cómo se validan los campos en la UI?</p>
+    <p class='qa-answer'><span class='label'>R:</span>app.component.html activa mensajes condicionales según el estado de transactionForm.controls.amount.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html</a></span>
+  </article>
+  <article class='qa-card' id='frontend-27'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>27.</span>¿Qué sucede cuando no hay transacciones?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El ng-template emptyTransactionList muestra un mensaje y un botón ghost para reintentar.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-28'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>28.</span>¿Qué información presenta la sección hero?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El hero resume la misión del tablero y muestra la última actualización, contextualizando la experiencia.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html</a></span>
+  </article>
+  <article class='qa-card' id='frontend-29'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>29.</span>¿Por qué se usan paneles y grid en CSS?</p>
+    <p class='qa-answer'><span class='label'>R:</span>app.component.css define paneles con sombras y una grid para separar formulario y lista, logrando jerarquía visual en TVs.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css</a></span>
+  </article>
+  <article class='qa-card' id='frontend-30'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>30.</span>¿Qué busca el gradiente de fondo?</p>
+    <p class='qa-answer'><span class='label'>R:</span>:host aplica un gradiente radial que ofrece contraste suave y mejora la legibilidad en pantallas grandes.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-31'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>31.</span>¿Qué efecto tienen las sombras y bordes redondeados?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Los estilos en .panel y botones generan profundidad y una sensación moderna para usuarios de smart TV.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css</a></span>
+  </article>
+  <article class='qa-card' id='frontend-32'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>32.</span>¿Cómo responde el layout cuando crece la pantalla?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El media query (min-width: 900px) transforma la grid en dos columnas, aprovechando pantallas amplias sin romper la estructura.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css</a></span>
+  </article>
+  <article class='qa-card' id='frontend-33'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>33.</span>¿Qué rol tiene la clase loader?</p>
+    <p class='qa-answer'><span class='label'>R:</span>loader usa tipografía y color distintos para indicar sincronización sin saturar el espacio.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-34'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>34.</span>¿Qué representa ghost en los botones secundarios?</p>
+    <p class='qa-answer'><span class='label'>R:</span>ghost estiliza acciones secundarias como actualizar o reintentar para que sean visibles pero no compitan con el submit principal.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-35'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>35.</span>¿Cómo ayuda transaction-form a la experiencia?</p>
+    <p class='qa-answer'><span class='label'>R:</span>transaction-form organiza campos verticalmente y mantiene espacio constante, ideal para pantallas touch.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-36'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>36.</span>¿Cómo se estilizan las filas de la tabla?</p>
+    <p class='qa-answer'><span class='label'>R:</span>transactions-table usa bordes suaves y padding para mantener legibilidad y evitar saturación visual.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.css</a></span>
+  </article>
+  <article class='qa-card' id='frontend-37'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>37.</span>¿Por qué se incluye @angular/forms en package.json?</p>
+    <p class='qa-answer'><span class='label'>R:</span>package.json declara @angular/forms porque el proyecto depende de formularios reactivos y validaciones declarativas.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-38'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>38.</span>¿Para qué se importa HttpClientModule en app.config.ts?</p>
+    <p class='qa-answer'><span class='label'>R:</span>app.config.ts importa HttpClientModule mediante importProvidersFrom para registrar el cliente HTTP en el contexto standalone.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.config.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.config.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-39'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>39.</span>¿Qué hace provideZoneChangeDetection en app.config.ts?</p>
+    <p class='qa-answer'><span class='label'>R:</span>provideZoneChangeDetection con eventCoalescing agrupa eventos y reduce recalculos innecesarios, mejorando rendimiento.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-40'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>40.</span>¿Por qué se provee el router aunque no hay rutas?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El router se registra para permitir crecimiento futuro manteniendo la convención de Angular, pese a que routes está vacío.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-41'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>41.</span>¿Qué contiene app.routes.ts?</p>
+    <p class='qa-answer'><span class='label'>R:</span>app.routes.ts exporta un arreglo vacío porque la app actualmente tiene una sola pantalla pero admite expansión.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.routes.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.routes.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-42'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>42.</span>¿Cómo evita la UI multi-envíos?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El botón de envío se desactiva cuando transactionForm.invalid o creationPending, evitando duplicados.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-43'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>43.</span>¿Qué feedback muestra tras registrar?</p>
+    <p class='qa-answer'><span class='label'>R:</span>creationMessage muestra el ID registrado para confirmar la operación.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-44'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>44.</span>¿Cómo se comunica un error al crear?</p>
+    <p class='qa-answer'><span class='label'>R:</span>creationError utiliza parseError para dar un mensaje legible cuando la llamada falla.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-45'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>45.</span>¿Cómo asegura el async pipe la reactividad?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El async pipe mantiene la vista sincronizada sin suscripciones manuales y evita memory leaks.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-46'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>46.</span>¿Cómo ayuda el empty state?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El bloque empty-state muestra una acción de reintento y evita que la tabla se vea vacía.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.html</a></span>
+  </article>
+  <article class='qa-card' id='frontend-47'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>47.</span>¿Qué estrategias de resiliencia se aplican?</p>
+    <p class='qa-answer'><span class='label'>R:</span>Los catchError en loadTransactions y submitTransaction devuelven valores por defecto para mantener la app operativa ante fallos.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-48'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>48.</span>¿Por qué el polling cada 5 segundos?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El timer configurado en app.component.ts equilibra frescura con carga de red, ideal para un tablero financiero casi en tiempo real.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-49'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>49.</span>¿Cómo reacciona la tabla tras un error?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El catchError retorna of([]), lo que permite que la tabla se actualice y el usuario reintente sin romper la vista.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/app.component.ts</a></span>
+  </article>
+  <article class='qa-card' id='frontend-50'>
+    <p class='qa-question'><span class='label'>P:</span><span class='qa-number'>50.</span>¿Qué ventaja da separar componente y servicio?</p>
+    <p class='qa-answer'><span class='label'>R:</span>El componente gestiona UI y estados mientras TransactionService maneja HTTP, facilitando pruebas y mantenimiento.</p>
+    <span class='reference'>Referencia: <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java' target='_blank' rel='noreferrer'>backend/PruebaTecnicaACGRJavaBackend/src/main/java/com/acgr/sofka/pt/kardif/service/TransactionService.java</a> y <a href='https://github.com/cristina20139/PruebaTecnicaACGRFullStackSofkaKardif01Enero2026/blob/main/frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts' target='_blank' rel='noreferrer'>frontend/prueba-tecnica-acgr-sofka-angular-ene2026/src/app/transactions.service.ts</a></span>
+  </article>
+</div></section>
+    <footer>Generado automáticamente para documentar las decisiones técnicas del proyecto.</footer>
+  </div>
+</body>
+</html>
