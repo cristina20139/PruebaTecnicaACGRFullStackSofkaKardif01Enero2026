@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.acgr.sofka.pt.kardif.domain.model.TransactionRecord;
 import com.acgr.sofka.pt.kardif.domain.repository.TransactionRepository;
+import com.acgr.sofka.pt.kardif.messaging.TransactionEvent;
+import com.acgr.sofka.pt.kardif.messaging.TransactionEventPublisher;
 import com.acgr.sofka.pt.kardif.service.dto.TransactionResponse;
 import com.acgr.sofka.pt.kardif.service.rules.CommissionResult;
 import com.acgr.sofka.pt.kardif.service.rules.CommissionRule;
@@ -34,6 +36,7 @@ public class TransactionService {
 
     private final TransactionRepository repository;
     private final List<CommissionRule> rules;
+    private final TransactionEventPublisher eventPublisher;
 
     /**
      * 🧱 Constructor wiring the repository and rules so the service stays immutable beyond its dependencies.
@@ -43,9 +46,11 @@ public class TransactionService {
      * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
      * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
      */
-    public TransactionService(TransactionRepository repository, List<CommissionRule> rules) {
+    public TransactionService(TransactionRepository repository, List<CommissionRule> rules,
+            TransactionEventPublisher eventPublisher) {
         this.repository = repository;
         this.rules = rules;
+        this.eventPublisher = eventPublisher;
     }
 
     /**
@@ -62,7 +67,12 @@ public class TransactionService {
         CommissionResult ruleResult = applyRule(amount);
         TransactionRecord record = new TransactionRecord(null, amount, ruleResult.commission(), LocalDateTime.now());
         return repository.save(record)
-                .map(saved -> TransactionResponse.from(saved, ruleResult.rate(), ruleResult.reason()));
+                .flatMap(saved -> {
+                    TransactionResponse response = TransactionResponse.from(saved, ruleResult.rate(),
+                            ruleResult.reason());
+                    TransactionEvent event = TransactionEvent.from(saved, ruleResult);
+                    return eventPublisher.publish(event).thenReturn(response);
+                });
     }
 
     /**
