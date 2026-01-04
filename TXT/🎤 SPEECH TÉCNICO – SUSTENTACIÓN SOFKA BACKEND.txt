@@ -1,0 +1,179 @@
+🎤 SPEECH TÉCNICO – SUSTENTACIÓN SOFKA BACKEND
+Guía completa del discurso y respuestas técnicas para presentar el backend de liquidación de comisiones con claridad y buena legibilidad desde un smart TV.
+
+Diseñado para verse desde la cama en un smart TV: tipografía amplia, contraste alto y espaciado generoso para que cada frase sea fácil de leer a distancia.
+🟦 SLIDE 1 – TÍTULO
+“Buenos días. Mi nombre es Aura Cristina Garzón Rodríguez.”
+
+“Voy a explicar cómo diseñé y construí el backend del sistema de liquidación de comisiones, enfocándome en tres aspectos clave:”
+
+Asincronía real con WebFlux que es el stack reactivo de Spring para crear aplicaciones no bloqueantes y orientadas a eventos. Cuando hablo de asincronía real con WebFlux, me refiero a que el backend no bloquea hilos mientras espera operaciones de entrada y salida, como acceso a base de datos.
+Persistencia relacional consistente, es decir que aunque el procesamiento sea asíncrono, los datos se almacenan en una base relacional que garantiza integridad, consistencia y trazabilidad, fundamentales en sistemas financieros.
+Aplicación práctica de principios SOLID en un contexto financiero para asegurar mantenibilidad y evolución controlada del código.
+🟦 SLIDE 2 – FLUJOS ASÍNCRONOS Y PERSISTENCIA
+“Esta aplicación es una API reactiva, lo que significa que está diseñada para responder a eventos y manejar múltiples solicitudes concurrentes sin bloquear recursos.”
+
+“Un flujo no bloqueante implica que el sistema no se queda esperando a que termine una operación de base de datos o de red para continuar.”
+
+“Para esto se usan los tipos reactivos Mono, que representa un solo resultado, y Flux, que representa múltiples resultados.”
+
+“Al usar Mono y Flux desde el controlador hasta el repositorio, se mantiene un IO reactivo de extremo a extremo, sin romper el modelo reactivo en ninguna capa.”
+
+🟦 SLIDE 3 – ASINCRONÍA EN EL CONTROLADOR
+“En el controlador, específicamente en TransactionController, los endpoints retornan un Mono.”
+
+“Esto indica que el controlador no bloquea el hilo, no contiene lógica de negocio y solo delega el procesamiento al servicio.”
+
+“De esta forma, el backend puede atender muchas solicitudes concurrentes sin degradar el rendimiento.”
+
+“Su única responsabilidad es adaptar HTTP al dominio.”
+
+“Esto cumple el principio de responsabilidad única y permite escalar el backend sin saturar el thread pool.”
+🟦 SLIDE 4 – PERSISTENCIA RELACIONAL REACTIVA
+“Aunque el flujo de la aplicación es asíncrono, la persistencia es relacional y sólida.”
+
+“Se usa R2DBC, que es una especificación para acceso reactivo a bases de datos relacionales, junto con H2 en memoria para este ejercicio.”
+
+“Esto permite manejar transacciones ACID, es decir, atómicas, consistentes, aisladas y durables, sin romper el modelo reactivo.”
+
+🟦 SLIDE 5 – PRINCIPIOS SOLID
+“El diseño del proyecto está fuertemente guiado por principios SOLID, con el objetivo de que el código sea mantenible, extensible y fácil de probar.”
+
+“Cada capa tiene una responsabilidad clara y las dependencias están desacopladas mediante interfaces.”
+
+🟦 SLIDE 6 – SRP: RESPONSABILIDAD ÚNICA
+“Un ejemplo claro de SRP es la separación entre:
+
+TransactionController, que solo maneja HTTP.
+TransactionService, que orquesta reglas y persistencia.
+ThresholdCommissionRule, que encapsula una única regla de comisión.
+“De esta forma, un cambio en la lógica de negocio no impacta la capa web, y viceversa, lo que reduce el acoplamiento y facilita la evolución del sistema.”
+
+🟦 SLIDE 7 – OCP Y DIP: REGLAS DE NEGOCIO
+“El principio Open/Closed se aplica en la interfaz CommissionRule y sus implementaciones como ThresholdCommissionRule, permitiendo agregar nuevas reglas sin modificar el servicio.”
+
+“Interface Segregation se ve en CommissionRule, que define solo los métodos necesarios: matches y apply.”
+
+“Dependency Inversion se aplica en TransactionService, que depende de la abstracción CommissionRule y de TransactionRepository, no de implementaciones concretas.”
+
+“Esto hace el diseño flexible y fácil de testear.”
+
+🟦 SLIDE 8 – ¿POR QUÉ ASINCRONÍA EN EL BACKEND?
+“Aunque Angular maneja asincronía para la experiencia de usuario, la lógica crítica del negocio financiero debe ejecutarse en el backend.”
+
+“En este proyecto, el cálculo de comisiones se controla desde TransactionService, garantizando seguridad, consistencia y trazabilidad, independientemente del cliente que consuma la API.”
+
+🟦 SLIDE 9 – CONSISTENCIA Y MANEJO DE FALLOS
+“Aunque el procesamiento es asíncrono, la consistencia se garantiza con persistencia relacional.”
+
+“Si ocurre un error durante el cálculo o la persistencia, el flujo reactivo falla y la transacción no se guarda.”
+
+“Esto evita estados inconsistentes y es esencial en sistemas financieros donde no se permite información parcial o duplicada.”
+
+🟦 SLIDE 10 – REGLAS DINÁMICAS Y ESCALABILIDAD
+“Las reglas de comisión no están quemadas en el código.”
+
+“Se configuran desde application.properties, lo que permite cambiar tasas o rangos sin recompilar ni redeplegar.”
+
+“Además, el backend es stateless y reactivo. Esto significa que no guarda estado en memoria entre solicitudes; cada request es independiente.”
+
+“Al ser reactivo, puede manejar muchas solicitudes concurrentes con pocos recursos.”
+
+“Esto permite escalar horizontalmente, es decir, ejecutar múltiples instancias del backend en paralelo sin afectar la integridad de los datos, ya que la base relacional sigue siendo la fuente de verdad.”
+
+🟦 SLIDE 11 – CONCLUSIÓN
+“En resumen, el proyecto combina asincronía real con WebFlux, persistencia relacional consistente y principios SOLID para construir una solución financiera escalable y mantenible.”
+
+“Es una base sólida para evolucionar a producción incorporando monitoreo, reintentos o una arquitectura orientada a eventos.”
+
+🎯 FRASES FINALES
+“Mi enfoque fue priorizar la consistencia y la claridad del diseño, entendiendo que en sistemas financieros la confiabilidad del dato es más importante que cualquier optimización prematura.”
+
+“El diseño prioriza consistencia, desacoplamiento y claridad, entendiendo que en sistemas financieros la confiabilidad del dato es el principal valor.”
+
+🧠 WEBFLUX vs SPRING MVC – RESPUESTAS TÉCNICAS AVANZADAS
+🔹 1. ¿Por qué usaste WebFlux y no Spring MVC?
+“Elegí WebFlux porque el problema planteado requiere manejar múltiples transacciones concurrentes sin bloquear hilos.”
+
+“Spring MVC es síncrono y bloqueante: cada request ocupa un hilo hasta que termina.”
+
+“WebFlux, en cambio, usa un modelo event-driven y no bloqueante, permitiendo mayor eficiencia bajo carga.”
+
+“En el proyecto, desde TransactionController hasta TransactionRepository, todo retorna Mono o Flux, evitando bloqueos en operaciones de base de datos.”
+
+🔹 2. ¿WebFlux es siempre mejor que MVC?
+“No. WebFlux no es mejor en todos los casos.”
+
+“Si el sistema es simple, con baja concurrencia o con librerías bloqueantes, Spring MVC es más sencillo y suficiente.”
+
+“WebFlux tiene sentido cuando el sistema necesita alta concurrencia, eficiencia de recursos o integración con flujos reactivos, como en este módulo financiero.”
+
+Esta respuesta demuestra criterio arquitectónico, no moda.
+
+🔹 3. ¿Qué significa realmente que WebFlux sea no bloqueante?
+“Significa que el hilo que atiende una petición no se queda esperando a que termine una operación de IO, como una consulta a base de datos.”
+
+“En lugar de eso, el hilo se libera y el sistema continúa cuando llega el evento de respuesta.”
+
+repository.save(record)
+    .map(TransactionResponse::from);
+“Aquí no se bloquea el hilo esperando el save; se reacciona cuando el resultado está disponible.”
+
+🔹 4. ¿Qué pasa si usas WebFlux con algo bloqueante?
+“Si se usan operaciones bloqueantes dentro de WebFlux, se rompe el modelo reactivo y se pierde el beneficio.”
+
+“Por eso en este proyecto usé R2DBC, que es acceso reactivo a bases de datos relacionales, en lugar de JPA, que es bloqueante.”
+
+⚠️ Punto clave para jurado.
+
+🔹 5. ¿Qué diferencia hay entre R2DBC y JPA/Hibernate?
+“JPA/Hibernate es bloqueante y está basado en un modelo imperativo.”
+
+“R2DBC, en cambio, es una especificación diseñada para trabajar con flujos reactivos, devolviendo Mono y Flux, lo que permite mantener IO no bloqueante de extremo a extremo.”
+
+“Esto es lo que me permite usar WebFlux sin romper la asincronía en la capa de persistencia.”
+
+🔹 6. ¿Cómo maneja WebFlux la concurrencia comparado con MVC?
+“Spring MVC escala agregando más hilos.”
+
+“WebFlux escala manejando más eventos con menos hilos.”
+
+“Esto hace que WebFlux sea más eficiente en escenarios de alta concurrencia, como sistemas financieros con múltiples transacciones simultáneas.”
+
+🔹 7. ¿Qué es el event loop en WebFlux?
+“WebFlux se apoya en un modelo de event loop, normalmente sobre Netty.”
+
+“Un pequeño número de hilos gestiona muchos eventos de entrada y salida, reaccionando cuando hay datos disponibles, en lugar de esperar bloqueado.”
+
+✔ No profundices más a menos que te lo pidan.
+
+🔹 8. ¿Cómo manejas errores en WebFlux frente a MVC?
+“En lugar de try-catch, WebFlux maneja errores como parte del flujo.”
+
+“En el proyecto uso un GlobalErrorHandler para devolver respuestas uniformes cuando el Mono falla, manteniendo consistencia en la API.”
+
+🔹 9. ¿WebFlux reemplaza a MVC en Spring?
+“No. Ambos coexisten.”
+
+“Spring permite elegir MVC o WebFlux según el caso de uso.”
+
+“En este proyecto, WebFlux fue la mejor opción por el enfoque en asincronía y escalabilidad.”
+
+🔹 10. ¿Cuándo NO usarías WebFlux?
+“No usaría WebFlux si:
+
+El sistema es simple y de baja carga.
+Las dependencias son bloqueantes.
+El equipo no tiene experiencia reactiva.
+“En esos casos, Spring MVC es más claro y menos complejo.”
+
+✅ Esta respuesta senior cierra la conversación.
+
+🎯 RESPUESTA FINAL DE IMPACTO (si te retan)
+“WebFlux no es una moda; es una herramienta.”
+
+“En este proyecto lo usé porque el problema requería asincronía real, eficiencia y consistencia financiera.”
+
+“Si el contexto fuera diferente, elegiría MVC sin problema.”
+
+Optimizado para smart TV · Sustentación lista para leer en pantallas grandes.
