@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import com.acgr.sofka.pt.kardif.domain.model.TransactionRecord;
@@ -47,7 +48,7 @@ public class TransactionService {
      * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
      */
     public TransactionService(TransactionRepository repository, List<CommissionRule> rules,
-            TransactionEventPublisher eventPublisher) {
+            @Nullable TransactionEventPublisher eventPublisher) {
         this.repository = repository;
         this.rules = rules;
         this.eventPublisher = eventPublisher;
@@ -71,7 +72,10 @@ public class TransactionService {
                     TransactionResponse response = TransactionResponse.from(saved, ruleResult.rate(),
                             ruleResult.reason());
                     TransactionEvent event = TransactionEvent.from(saved, ruleResult);
-                    return eventPublisher.publish(event).thenReturn(response);
+                    if (eventPublisher != null) {
+                        return eventPublisher.publish(event).thenReturn(response);
+                    }
+                    return Mono.just(response);
                 });
     }
 
