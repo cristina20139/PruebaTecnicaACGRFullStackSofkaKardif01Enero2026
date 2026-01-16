@@ -39,7 +39,6 @@ public final class PatchedSwaggerWelcomeWebFlux extends SwaggerWelcomeWebFlux {
 		super(swaggerUiConfigProperties, springDocConfigProperties, swaggerUiConfigParameters, springWebProvider);
 	}
 
-	@Override
 	/**
 	 * 🧭 Builds the Swagger config URL from the current request context so the welcome page remains reachable.
 	 * <p>
