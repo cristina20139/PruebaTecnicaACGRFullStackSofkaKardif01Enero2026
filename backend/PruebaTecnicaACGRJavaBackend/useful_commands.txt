@@ -1,0 +1,20 @@
+Since Kafka is installed at C:\kafka_2.13-4.1.0, start it from PowerShell (assuming no separate Zookeeper) with:
+
+& 'C:\kafka_2.13-4.1.0\bin\windows\kafka-server-start.bat' 'C:\kafka_2.13-4.1.0\config\server.properties'
+
+With the broker running, create the topic your app writes to (transactions) so the producer can publish. Run:
+
+& 'C:\kafka_2.13-4.1.0\bin\windows\kafka-topics.bat' --create --topic transactions --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+
+& 'C:\kafka_2.13-4.1.0\bin\windows\kafka-storage.bat' format --cluster-id $(kafka-storage.bat random --cluster-id) --bootstrap-server localhost:9092 --data-dir C:\kafka_2.13-4.1.0\data\kraft-combined-logs
+
+
+
+_______________________________________________
+
+Now run the configuration and broker together:
+
+    # generate a cluster ID, trimming the newline and passing it through to the formatter
+    $clusterId = (& 'C:\kafka_2.13-4.1.0\bin\windows\kafka-storage.bat' random-uuid).Trim()
+    & 'C:\kafka_2.13-4.1.0\bin\windows\kafka-storage.bat' format --config 'C:\kafka_2.13-4.1.0\config\kraft\server.properties' --cluster-id $clusterId --data-dir C:\kafka_2.13-4.1.0\data\kraft-combined-logs
+    & 'C:\kafka_2.13-4.1.0\bin\windows\kafka-server-start.bat' 'C:\kafka_2.13-4.1.0\config\server.properties'
