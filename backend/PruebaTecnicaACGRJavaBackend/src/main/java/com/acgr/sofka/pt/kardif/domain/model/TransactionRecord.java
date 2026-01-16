@@ -20,7 +20,7 @@ import org.springframework.data.relational.core.mapping.Table;
  * <p>
  * Expone solo getters/setters mientras los servicios posteriores dependen de esta abstracción (Inversión de
  * Dependencias) y permanece cerrado a modificaciones para evitar lógica de negocio incrustada, por lo que nuevos
- * campos pueden añadirse sin cambiar los consumidores existentes (Open/Closed).
+ * campos pueden añadirse sin cambiar los consumidores existentes (Open/Closed). C
  *
  * @author Aura Cristina Garzón Rodríguez (auragarzonr@gmail.com)
  * @since Thursday 1 January 2026 8:01 AM GMT -5 Bogotá DC Colombia
